@@ -8,14 +8,14 @@
 	<!-- Bootstrap CSS -->
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
+	<link rel="stylesheet" type="text/css" href="style.css">
+
 	<title>Project Hookup | Home</title>
 </head>
 <body>
-
-
-	<nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #55BCC9;">
+	<nav class="navbar fixed-top navbar-expand-lg navbar-dark" style="background-color: #55BCC9;">
 		<div class="container">
-			<a class="navbar-brand" href="#">Project Hookup</a>
+			<a class="navbar-brand" href="#">project<span class="pink">hookup</span></a>
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
 			</button>
@@ -23,19 +23,22 @@
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
 				<ul class="navbar-nav mr-auto">
 					<li class="nav-item">
-						<a class="nav-link active" href="">Home</a>
+						<a class="nav-link" href="#">Home</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link " href="#">Projects</a>
 					</li>
 
 				</ul>
 				<ul class="navbar-nav">
 					<li class="nav-item">
-						<a class="nav-link" href="#">Profile</a>
+						<a class="nav-link " href="#">Profile</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="#">Login</a>
+						<button class="btn my-2 my-sm-0 nav_button_primary" type="button">Sign in</button>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="registration.html">Register</a>
+						<button class="btn my-2 my-sm-0 nav_button_secondary" type="button" onclick=" to_home()">Register</button>
 					</li>
 					
 				</ul>
@@ -43,23 +46,22 @@
 		</div>
 	</nav>
 
-	<div class="jumbotron">
-		<div class="container">
-			<h1 class="display-4">Project Hookup</h1>
-			<hr class="my-4">
-			<p class="lead">Tinder for your projects</p>
-			<a class="btn btn-primary btn-lg" href="registration.html" role="button">Sign Up</a>
-		</div>
+	<div class="container my-5 text-center">
+		<h1 class="display-4">project<span class="pink">hookup</span></h1>
+		<hr class="my-4">
+		<p class="lead">Tinder for your projects</p>
+		<button class="btn my-2 my-sm-0 nav_button_primary btn-lg" type="button">Sign up</button>
 	</div>
 
-	<div class="container">
+
+	<div class="container my-5">
 
 		<div class="text-center">
 			<h1 class="my-5">Our Vision</h1>
 		</div>
 
 		<hr class="mb-5">
-		<p class="h5">Our team of developers sat down and thought of a social media web application that will change the world.  Have you ever wanted to complete a task or project but have a very hard time finding a team to work with?  In comes projecthookup.  Our platform will seamlessly help you find team members or coworkers to help you complete any tasks that are thrown your way.  Whether it be computer programming projects, new/small bussiness projects, manufacturing projects, or anything else that you can imagine, project hookup has you covered.</p>
+		<p class="h5">Our team of developers sat down and thought of a social media web application that will change the world.  Have you ever wanted to complete a task or project but have a very hard time finding a team to work with?  In comes project<span class="pink">hookup</span>.  Our platform will seamlessly help you find team members or coworkers to help you complete any tasks that are thrown your way.  Whether it be computer programming projects, new/small bussiness projects, manufacturing projects, or anything else that you can imagine, project<span class="pink">hookup</span> has you covered.</p>
 
 		<div class="text-center">
 			<h1 class="my-5">Our Team</h1>
@@ -72,8 +74,8 @@
 				<img src="profile_holder.jfif" class="img-fluid rounded-circle border">
 			</div>
 			<div class="col-md-9 text-center">
-				<h4 class="text-primary">Xander Covert</h2>
-					<p class="text-secondary">A junior computer science student ...</p>
+				<h4 class="pink">Xander Covert</h4>
+				<p class="text-secondary">A junior computer science student coding to avoid doing computer science work.</p>
 			</div>
 		</div>
 
@@ -82,8 +84,8 @@
 				<img src="profile_holder.jfif" class="img-fluid rounded-circle border">
 			</div>
 			<div class="col-md-9 text-center">
-				<h4 class="text-primary">Zechariah Zientek</h2>
-					<p class="text-secondary">A senior computer science student...</p>
+				<h4 class="pink">Zechariah Zientek</h4>
+				<p class="text-secondary">A senior computer science student...</p>
 			</div>
 		</div>
 
@@ -92,8 +94,8 @@
 				<img src="profile_holder.jfif" class="img-fluid rounded-circle border">
 			</div>
 			<div class="col-md-9 text-center">
-				<h4 class="text-primary">Mike Spagna</h2>
-					<p class="text-secondary">A senior computer science student with a keen eye for design.</p>
+				<h4 class="pink">Mike Spagna</h4>
+				<p class="text-secondary">A senior computer science student with a keen eye for design.</p>
 			</div>
 		</div>
 
@@ -102,11 +104,12 @@
 				<img src="profile_holder.jfif" class="img-fluid rounded-circle border">
 			</div>
 			<div class="col-md-9 text-center">
-				<h4 class="text-primary">Drew Fiutko</h2>
-					<p class="text-secondary">A junior computer science student looking to make a difference.</p>
+				<h4 class="pink">Drew Fiutko</h4>
+				<p class="text-secondary">A junior computer science student looking to make a difference.</p>
 			</div>
 		</div>
 	</div>
+
 
 
 	<!-- Optional JavaScript -->

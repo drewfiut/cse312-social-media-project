@@ -8,12 +8,12 @@
 	<!-- Bootstrap CSS -->
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
-	<link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="style.css">
 
-	<title>NAVBAR TEMPLATE</title>
+	<title>Post</title>
 </head>
 <body>
+
 
 	<nav class="navbar fixed-top navbar-expand-lg navbar-dark" style="background-color: #55BCC9;">
 		<div class="container">
@@ -50,61 +50,32 @@
 
 
 	<div class="container">
-		<div class="row">
+		<div class="row d-flex justify-content-center">
 			<div class="col-10">
-				<div class="card my-5">
-					<div class="card-header text-center h3">
-						UserName
+				<div class="card">
+					<div class="card-header text-center">
+						<h3 class="card-title">Make a Post!</h3>
 					</div>
-					<div class="card-body border-bottom px-5" id="dm-card-body">
-						<p class="sender">User1: Hello</p>
-						<p class="me text-right">me: HI!</p>
-						<p class="sender">User1: Hello</p>
-						<p class="me text-right">me: HI!</p>
-						<p class="sender">User1: Hello</p>
-						<p class="me text-right">me: HI!</p>
-						<p class="sender">User1: Hello</p>
-						<p class="me text-right">me: HI!</p>
-						<p class="sender">User1: Hello</p>
-						<p class="me text-right">me: HI!</p>
-						<p class="sender">User1: Hello</p>
-						<p class="me text-right">me: HI!</p>
-						<p class="sender">User1: Hello</p>
-						<p class="me text-right">me: HI!</p>
-						<p class="sender">User1: Hello</p>
-						<p class="me text-right">me: HI!</p>
-						<p class="sender">User1: Hello</p>
-						<p class="me text-right">me: HI!</p>
-						<p class="sender">User1: Hello</p>
-						<p class="me text-right">me: HI!</p>
-						<p class="sender">User1: Hello</p>
-						<p class="me text-right">me: HI!</p>
-						<p class="sender">User1: Hello</p>
-						<p class="me text-right">me: HI!</p>
-
+					<div class="card-body">
+						<form>
+							<div class="form-group">
+								<label for="title">Title</label>
+								<input type="text" class="form-control" id="title" placeholder="Title your project">
+							</div>
+							<div class="form-group">
+								<label for="description">Description</label>
+								<textarea class="form-control" id="description" placeholder="Describe your project" rows="4"></textarea>
+							</div>
+							<div class="form-group">
+								<label for="post_file">Image: (optional)</label>
+								<input type="file" class="form-control-file" id="post_file">
+							</div>
+						</form>
 					</div>
-					<form class="d-inline-flex align-items-center p-2">
-						<textarea class="form-control" rows="2"></textarea>
-						<button type="submit" class="btn btn-primary ml-2">Send</button>
-					</form>
-				</div>
-			</div>
-
-			<div class="col-2">
-
-				<div class="card my-5">
-					<nav class="nav flex-column nav-pills">
-						<a class="nav-link active" href="#">user1</a>
-						<a class="nav-link" href="#">user2</a>
-						<a class="nav-link" href="#">user3</a>
-					</nav>
 				</div>
 			</div>
 		</div>
 	</div>
-
-
-
 
 	<!-- Optional JavaScript -->
 	<!-- jQuery first, then Popper.js, then Bootstrap JS -->

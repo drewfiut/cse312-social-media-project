@@ -6,9 +6,11 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 	<!-- Bootstrap CSS -->
+	<script src="https://kit.fontawesome.com/e81097064e.js" crossorigin="anonymous"></script>
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="projects.css">
+	<link rel="stylesheet" href="projects.css">
+	<link rel="stylesheet" href="project_card.css">
 	<title>Project Page</title>
 </head>
 <body>
@@ -42,23 +44,67 @@
 			</div>
 		</div>
 	</nav>
-    <div class="d-flex justify-content-center">
-        <h1>Your Active Projects</h1>
-        <br><br>
-    </div>
-    <ul>
-        <li>
-            <div class="jumbotron project_tron"></div>
-        </li>
-        <li>
-            <div class="jumbotron project_tron"></div>
-        </li>
-    </ul>
+	<h1 class="text-center">Active Projects</h1>
+    <div class="project_deck container">
 
+			<div class="card mb-3 project_card" >
+				<div class="row">
+					<div class="col-sm-1 align-self-center">
+						<button type="button" class="like_btn btn px-3"><i class="fas fa-fire-alt"></i><span id="like_count">0</span></button>
+					</div>
+					<div class="col-sm-4  align-self-center">
+						<img src="1_example_logo.jpg" class="card-img" alt="...">
+					</div>
+					  <div class="col-sm">
+						<div class="card-body">
+							  <h5 class="card-title pink">Hippo</h5>
+							  <p class="card-text" id="descroption">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in</p>
+							 <p class="card-text" id="skills"><strong>Skills:</strong> Python, Javascript, HTML, CSS</p>
+							<p class="card-text" id=""><i class="fas fa-users"></i>  3/5 collaborators</p>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-10"></div>
+					<div class="col">
+						<a href="" id="view_link"><u>View Project>></u></a>
+					</div>
+				</div>
+			</div>
+
+	</div>
+
+	<hr>
    
-    <div class="d-flex justify-content-center">
-        <h1>Your Posted Projects</h1>
-    </div>
+    <h1 class="text-center">Pending Projects</h1>
+    <div class="project_deck container">
+
+			<div class="card mb-3 project_card" >
+				<div class="row">
+					<div class="col-sm-1 align-self-center">
+						<button type="button" class="like_btn btn px-3"><i class="fas fa-fire-alt"></i><span id="like_count">0</span></button>
+					</div>
+					<div class="col-sm-4  align-self-center">
+						<img src="2_example_logo.jpg" class="card-img" alt="...">
+					</div>
+					  <div class="col-sm">
+						<div class="card-body">
+							  <h5 class="card-title pink">Rocket</h5>
+							  <p class="card-text" id="descroption">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only fivaining essentially unchanged. It was popularised in</p>
+							 <p class="card-text" id="skills"><strong>Skills:</strong> Mechanical Engineering, Aerospace Engineering</p>
+							<p class="card-text" id=""><i class="fas fa-users"></i>  1/2 collaborators</p>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-10"></div>
+					<div class="col">
+						<a href="" id="view_link"><u>View Project>></u></a>
+					</div>
+				</div>
+			</div>
+
+	</div>
 
 	<!-- Optional JavaScript -->
 	<!-- jQuery first, then Popper.js, then Bootstrap JS -->

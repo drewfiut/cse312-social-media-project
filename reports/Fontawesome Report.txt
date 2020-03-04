@@ -1,0 +1,15 @@
+Fontawesome Report
+
+Fontawesome is a service that allows websites to use their icons right in line with normal text.  Fontawesone has thousands of different icons that range in many different categories.
+
+In our website, we needed a good icon to use to like a post, instead of just using a plain text, boring button.  Fontawesome is allowing us to use a fire icon (https://fontawesome.com/icons/fire-alt) to use as the link button to like a post.  This icon can be resized and made a different color to fit out needs.  When a post is liked, the icon will be a brighter color, clearly signifying that the post is liked.
+
+Fontawesome uses a javascript file thats linked in the head tag of the file that the icon is used on.  This js file downloads css files that style the icons when they are used in the file.  We use the fire-alt icon, so to use the icon, an <i> tag is placed right where we want it.  The <i> tag has a class called 'fa-fire-alt' that pulls in the fire-alt icon and puts it on the page.  The actual css code is:
+
+.fa-fire-alt:before {
+    content: "\f7e4"
+}
+
+It is a simple process that produces great results.
+
+Our project is using the Fontawesome free tier.  The license can be found here: https://fontawesome.com/license/free.  Fontawesome is free to use and it allows for the use in commercial products including websites, mobile apps, desktop apps, and inside documents.  The free tier comes with 1,557 icons and 10k pageviews per month. If you go over the limit, the icons will no longer load.  The only other restriction is using the Fontawesome name in the name of your own project.

@@ -50,3 +50,8 @@ body{
   .centered_heading{
     align-items: center;
   }
+
+  #dm-card-body{
+  max-height: 27rem;
+  overflow-y: auto;
+}

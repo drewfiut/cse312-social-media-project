@@ -9,15 +9,15 @@
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
 	<link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet">
-	<link rel="stylesheet" type="text/css" href="dmstyle.css">
+	<link rel="stylesheet" type="text/css" href="style.css">
 
 	<title>NAVBAR TEMPLATE</title>
 </head>
 <body>
 
-	<nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #55BCC9;">
+	<nav class="navbar fixed-top navbar-expand-lg navbar-dark" style="background-color: #55BCC9;">
 		<div class="container">
-			<a class="navbar-brand" href="#">Project Hookup</a>
+			<a class="navbar-brand" href="#">project<span class="pink">hookup</span></a>
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
 			</button>
@@ -27,15 +27,22 @@
 					<li class="nav-item">
 						<a class="nav-link" href="#">Home</a>
 					</li>
+					<li class="nav-item">
+						<a class="nav-link " href="#">Projects</a>
+					</li>
 
 				</ul>
 				<ul class="navbar-nav">
 					<li class="nav-item">
-						<a class="nav-link" href="#">Profile</a>
+						<a class="nav-link " href="#">Profile</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="#">Logout</a>
+						<button class="btn my-2 my-sm-0 nav_button_primary" type="button">Sign in</button>
 					</li>
+					<li class="nav-item">
+						<button class="btn my-2 my-sm-0 nav_button_secondary" type="button" onclick=" to_home()">Register</button>
+					</li>
+					
 				</ul>
 			</div>
 		</div>
@@ -49,7 +56,7 @@
 					<div class="card-header text-center h3">
 						UserName
 					</div>
-					<div class="card-body border-bottom px-5">
+					<div class="card-body border-bottom px-5" id="dm-card-body">
 						<p class="sender">User1: Hello</p>
 						<p class="me text-right">me: HI!</p>
 						<p class="sender">User1: Hello</p>

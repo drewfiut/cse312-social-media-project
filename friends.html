@@ -1,48 +1,53 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <!-- Required meta tags -->
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<!-- Required meta tags -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-  <!-- Bootstrap CSS -->
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
-  <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" type="text/css" href="dmstyle.css">
+	<link rel="stylesheet" type="text/css" href="style.css">
 
-  <title>Friends List</title>
+	<title>Project Hookup | Collaborators</title>
 </head>
 <body>
+	<nav class="navbar fixed-top navbar-expand-lg navbar-dark" style="background-color: #55BCC9;">
+		<div class="container">
+			<a class="navbar-brand" href="#">project<span class="pink">hookup</span></a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
 
-  <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #55BCC9;">
-    <div class="container">
-      <a class="navbar-brand" href="#">Project Hookup</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav mr-auto">
+					<li class="nav-item">
+						<a class="nav-link" href="#">Home</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link " href="#">Projects</a>
+					</li>
 
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-          <li class="nav-item">
-            <a class="nav-link" href="#">Home</a>
-          </li>
-
-        </ul>
-        <ul class="navbar-nav">
-          <li class="nav-item">
-            <a class="nav-link" href="#">Profile</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Logout</a>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </nav>
+				</ul>
+				<ul class="navbar-nav">
+					<li class="nav-item">
+						<a class="nav-link " href="#">Profile</a>
+					</li>
+					<li class="nav-item">
+						<button class="btn my-2 my-sm-0 nav_button_primary" type="button">Sign in</button>
+					</li>
+					<li class="nav-item">
+						<button class="btn my-2 my-sm-0 nav_button_secondary" type="button" onclick=" to_home()">Register</button>
+					</li>
+					
+				</ul>
+			</div>
+		</div>
+	</nav>
 
   <div class="container">
-    <h2>Friends: </h2>
+    <h2>Collaborators: </h2>
     <ul class="list-group">
         <li class="card img-fluid" style="width:200px">
             <img class="card-img-top" src="profile_holder.jfif" alt="Card image" style="width:100%">

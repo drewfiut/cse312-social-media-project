@@ -3,6 +3,7 @@ body{
   font-family: 'Roboto', ;
   background-color: #cafafe;
   padding-top: 70px;
+  padding-bottom: 25px;
   margin: 20px;
   }
   .navbar-nav > li{
@@ -36,7 +37,6 @@ body{
   }
 
   .nav_button_outline{
-    
     color: #ffffff;
     border-color: #ffffff;
     background-color:  #55BCC9;
@@ -47,8 +47,9 @@ body{
     background-color:  #55BCC9;
   }
 
-  .centered_heading{
+  h1{
     align-items: center;
+    color: #2a4247;
   }
 
   #dm-card-body{

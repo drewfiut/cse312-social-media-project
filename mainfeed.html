@@ -6,13 +6,15 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 	<!-- Bootstrap CSS -->
+	<script src="https://kit.fontawesome.com/e81097064e.js" crossorigin="anonymous"></script>
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="style.css">
-	<title>Project Page</title>
+	<link rel="stylesheet" href="projects.css">
+	<link rel="stylesheet" href="project_card.css">
+	<link rel="stylesheet" href="mainfeed.css">
+	<title>Project Feed</title>
 </head>
 <body>
-
-
 	<nav class="navbar fixed-top navbar-expand-lg navbar-dark" style="background-color: #55BCC9;">
 		<div class="container">
 			<a class="navbar-brand" href="#">project<span class="pink">hookup</span></a>
@@ -36,19 +38,60 @@
 					<li class="nav-item">
 						<button class="btn my-2 my-sm-0 nav_button_outline" type="button">Sign out</button>
 					</li>
-
+					
 				</ul>
 			</div>
 		</div>
 	</nav>
 
-    <div class="d-flex justify-content-left">
-        <h1>Recent Updates</h1>
-    </div>
+	<h1>Recent Updates</h1>
+	<br/>
+	
+    <div class="project_deck container">
 
-		<div class="d-flex justify-content-right">
-        <h1>Needs Your Attention</h1>
-    </div>
+			<div class="card mb-3 project_card" >
+				<div class="row">
+					<div class="col-sm-1 align-self-center">
+						<button type="button" class="like_btn btn px-3"><i class="fas fa-fire-alt"></i><span id="like_count">0</span></button>
+					</div>
+					<div class="col-sm-4  align-self-center">
+						<img src="1_example_logo.jpg" class="card-img" alt="...">
+					</div>
+					  <div class="col-sm">
+						<div class="card-body">
+							  <h5 class="card-title pink">Hippo</h5>
+							  <p class="card-header" id="header"><strong>Update:</strong> Progress has been made....</p>
+							  <p class="card-text" id="descroption">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in</p>
+							 <p class="card-text" id="skills"><strong>Skills:</strong> Python, Javascript, HTML, CSS</p>
+							<p class="card-text" id=""><i class="fas fa-users"></i>  3/5 collaborators</p>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-10"></div>
+					<div class="col">
+						<a href="" id="view_link" ><u>View Project>></u></a>
+					</div>
+				</div>
+			</div>
+
+	</div>
+
+	<h1>New Collaborators</h1>
+
+	<div class="container my-5">
+		<div class="row my-5">
+			<div class="col-md-3 d-flex align-items-center">
+				<img src="profile_holder.jfif" class="img-fluid rounded-circle border">
+			</div>
+			<div class="col-md-9 text-center">
+				<h4 class="pink">Studius Student</h4>
+				<p class="text-secondary">A student thriving to succeed interested in all sorts of science stuff.</p>
+			</div>
+		</div>
+	</div>
+
+	<br/>
 
 	<!-- Optional JavaScript -->
 	<!-- jQuery first, then Popper.js, then Bootstrap JS -->

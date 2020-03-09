@@ -1,0 +1,57 @@
+/* <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet"> */ 
+body{
+  font-family: 'Roboto', ;
+  background-color: #cafafe;
+  padding-top: 70px;
+  margin: 20px;
+  }
+  .navbar-nav > li{
+    padding-right:10px;
+  }
+
+  .pink{
+    color: #FF69B4;
+    font-weight: 700;
+  }
+
+  .teal{
+    color: #55BCC9;
+  }
+
+  .nav_button_primary{
+    color: #ffffff;
+    background-color:  #FF69B4;
+  }
+  .nav_button_primary:hover{
+    background-color: #ffffff;
+    color:  #FF69B4;
+  }
+  .nav_button_secondary{
+    background-color: #ffffff;
+    color:  #FF69B4;
+  }
+  .nav_button_secondary:hover{
+    color: #ffffff;
+    background-color:  #FF69B4;
+  }
+
+  .nav_button_outline{
+    color: #ffffff;
+    border-color: #ffffff;
+    background-color:  #55BCC9;
+  }
+  .nav_button_outline:hover{
+    color: #FF69B4;
+    border-color: #FF69B4;
+    background-color:  #55BCC9;
+  }
+
+  h1{
+    align-items: center;
+    color: #2a4247;
+  }
+
+  #dm-card-body{
+  max-height: 27rem;
+  overflow-y: auto;
+}

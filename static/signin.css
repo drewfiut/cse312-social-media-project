@@ -1,0 +1,14 @@
+#signincard{
+    color: #97caef;
+}
+
+#signinbutton{
+    background-color: #3feee6;
+    border-color: #3feee6;
+}
+
+#signinbutton:hover{
+    background-color: #ffffff;
+    color: #3feee6;
+    border-color: #3feee6;
+}

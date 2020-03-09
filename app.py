@@ -37,6 +37,13 @@ def registration():
 def signin():
     return render_template('signin.html')
 
+@app.route('/hippo')
+def hippo_proj():
+    return render_template('hippo_project.html')
+
+@app.route('/rocket')
+def rocket_proj():
+    return render_template('rocket_project.html')
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')

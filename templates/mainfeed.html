@@ -8,12 +8,12 @@
 	<!-- Bootstrap CSS -->
 	<script src="https://kit.fontawesome.com/e81097064e.js" crossorigin="anonymous"></script>
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <link rel="stylesheet" href="style.css">
-	<link rel="stylesheet" href="projects.css">
-	<link rel="stylesheet" href="project_card.css">
-	<link rel="stylesheet" href="mainfeed.css">
+	<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+	<link rel="stylesheet" href="{{ url_for('static', filename='projects.css') }}">
+	<link rel="stylesheet" href="{{ url_for('static', filename='project_card.css') }}">
+	<link rel="stylesheet" href="{{ url_for('static', filename='mainfeed.css') }}">
 	<title>Project Feed</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
 	<title>Project Page</title>
 </head>
 <body>
@@ -57,7 +57,7 @@
 						<button type="button" class="like_btn btn px-3"><i class="fas fa-fire-alt"></i><span id="like_count">0</span></button>
 					</div>
 					<div class="col-sm-4  align-self-center">
-						<img src="1_example_logo.jpg" class="card-img" alt="...">
+						<img src="{{ url_for('static', filename='1_example_logo.jpg') }}" class="card-img" alt="...">
 					</div>
 					  <div class="col-sm">
 						<div class="card-body">
@@ -84,7 +84,7 @@
 	<div class="container my-5">
 		<div class="row my-5">
 			<div class="col-md-3 d-flex align-items-center">
-				<img src="profile_holder.jfif" class="img-fluid rounded-circle border">
+				<img src="{{ url_for('static', filename='profile_holder.jfif') }}" class="img-fluid rounded-circle border">
 			</div>
 			<div class="col-md-9 text-center">
 				<h4 class="pink">Studius Student</h4>

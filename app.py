@@ -45,5 +45,9 @@ def hippo_proj():
 def rocket_proj():
     return render_template('rocket_project.html')
 
+@app.route('/likes')
+def likes():
+    return render_template('likes.html')
+
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')

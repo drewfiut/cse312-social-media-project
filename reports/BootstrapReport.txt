@@ -10,7 +10,7 @@ Some of the major bootstrap classes we utilized were
     -.container: Used on most of our content organize page layout and keep the content width responsive
     -.card: Used for our signin page, and for displaing all projects on main feed and project page.
     -.jumbotron: Used for displaying the main heading of a page in our profile and selected project page
-
+    -.list-group: Used to improve the appearence of our list data
 
 To add bootstrap to our website we inclided the following line on all of our html pages
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">

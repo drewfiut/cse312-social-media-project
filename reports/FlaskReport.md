@@ -7,6 +7,9 @@ Flask is a lightweight, python microframework that helps setup web applications 
 
 #### Server
 To start, our app creates an instanse of Flask, (code [here](https://github.com/pallets/flask/blob/master/src/flask/app.py#L401 "Flask app.py")). The Flask Framework sets up a TCP socket server to handle sending the data of the webapp over the internet.
+We ran the server using the app.run() comand (code [here](https://github.com/pallets/flask/blob/master/src/flask/app.py#L883 "Flask app.py")).
+
+
 
 #### Routing
 Flask uses the [werkzeug routing system](https://werkzeug.palletsprojects.com/en/1.0.x/routing/) to route requests.  To point a path to a specific place in an app, a decorator must be used in the form `@app.route('/')`. This will route the `/` path to the following function.  In a simple example, if plain text is returned from the following fuction, then the webpage will serve plain text. For example:

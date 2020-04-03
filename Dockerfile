@@ -7,6 +7,7 @@ WORKDIR /app
 ENV MYSQL_PASSWORD  RNPr4UaGaK
 RUN pip install Flask==0.10.1
 RUN pip install mysql-connector
+RUN pip install flask-wtf
 COPY . /app
 
 ENTRYPOINT [ "python" ]

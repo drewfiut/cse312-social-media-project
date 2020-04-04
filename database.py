@@ -1,11 +1,14 @@
 import os
 import mysql.connector
 
+#CONNECT FUNCTION
 def connect():
     db = mysql.connector.connect(host='remotemysql.com', user='ZEhM9JKxvN', passwd=os.environ['MYSQL_PASSWORD'], database='ZEhM9JKxvN')
     return db
 
+#INSERT FUNCTIONS
 
+#Inserts a new user into the user table
 def insert_user(first_name, last_name, email, password, image):
     db = connect()
     cursor = db.cursor()
@@ -17,6 +20,7 @@ def insert_user(first_name, last_name, email, password, image):
     close(db)
     return user_id
 
+#Inserts a new project into the project table
 def insert_project(title, description, types, image, mem_count):
     db = connect()
     cursor = db.cursor()
@@ -28,6 +32,7 @@ def insert_project(title, description, types, image, mem_count):
     close(db)
     return project_id
 
+#Inserts a friends relationship into the friend table
 def insert_friend(sender_id, receiver_id):
     db = connect()
     cursor = db.cursor()
@@ -39,6 +44,7 @@ def insert_friend(sender_id, receiver_id):
     close(db)
     return friend_id
 
+#Inserts a like into the likes table
 def insert_likes(user_id, project_id):
     db = connect()
     cursor = db.cursor()
@@ -50,6 +56,7 @@ def insert_likes(user_id, project_id):
     close(db)
     return likes_id
 
+#inserts a comment into the comments table
 def insert_comments(user_id, project_id, comment):
     db = connect()
     cursor = db.cursor()
@@ -61,6 +68,7 @@ def insert_comments(user_id, project_id, comment):
     close(db)
     return comments_id
 
+#Inserts a project member relationship into the project_members table
 def insert_project_members(user_id, project_id):
     db = connect()
     cursor = db.cursor()
@@ -72,10 +80,25 @@ def insert_project_members(user_id, project_id):
     close(db)
     return project_member_id
 
+#SELECT FUNCTIONS
+
+#Selects a user from the user table
+def select_user(user_id):
+    db = connect()
+    cursor = db.cursor()
+    sql = 'SELECT first_name, last_name, email, password, image FROM user WHERE id = (%s)'
+    val = (user_id)
+    cursor.execute(sql,val)
+    db.commit()
+    result = cursor.fetchall()
+    close(db)
+    return result
+
+#Selects a project from the project table
 def select_project(project_id):
     db = connect()
     cursor = db.cursor()
-    sql = 'SELECT title, description, type, image, mem_count FROM project where id = (%s)'
+    sql = 'SELECT title, description, type, image, mem_count FROM project WHERE id = (%s)'
     val = (project_id)
     cursor.execute(sql,val)
     db.commit()
@@ -83,5 +106,90 @@ def select_project(project_id):
     close(db)
     return result
 
+#Selects all friend relationships of given user from friends table
+def select_friends(user_id):
+    db = connect()
+    cursor = db.cursor()
+    sql = 'SELECT sender_id, receiver_id FROM friend WHERE sender_id = (%s) OR receiver_id = (%s)'
+    val = (user_id, user_id)
+    cursor.execute(sql,val)
+    db.commit()
+    result = cursor.fetchall()
+    close(db)
+    return result
+
+#Selects all comments on a project
+def select_comment_project(project_id):
+    db = connect()
+    cursor = db.cursor()
+    sql = 'SELECT user_id, comment FROM comments WHERE project_id = (%s)'
+    val = (project_id)
+    cursor.execute(sql,val)
+    db.commit()
+    result = cursor.fetchall()
+    close(db)
+    return result
+
+#Selects all comments left by a user
+def select_comment_project(user_id):
+    db = connect()
+    cursor = db.cursor()
+    sql = 'SELECT project_id, comment FROM comments WHERE user_id = (%s)'
+    val = (user_id)
+    cursor.execute(sql,val)
+    db.commit()
+    result = cursor.fetchall()
+    close(db)
+    return result
+
+#Selects number of likes on a project
+def select_likes_count(project_id):
+    db = connect()
+    cursor = db.cursor()
+    sql = 'SELECT COUNT(*) FROM likes WHERE project_id = (%s)'
+    val = (project_id)
+    cursor.execute(sql,val)
+    db.commit()
+    result = cursor.fetchall()
+    close(db)
+    return result
+
+#Selects all projects a user has liked
+def select_likes_user(user_id):
+    db = connect()
+    cursor = db.cursor()
+    sql = 'SELECT project_id FROM likes WHERE user_id = (%s)'
+    val = (user_id)
+    cursor.execute(sql,val)
+    db.commit()
+    result = cursor.fetchall()
+    close(db)
+    return result
+
+#Selects all members of a project
+def select_project_members(project_id):
+    db = connect()
+    cursor = db.cursor()
+    sql = 'SELECT user_id FROM project_members WHERE project_id = (%s)'
+    val = (project_id)
+    cursor.execute(sql,val)
+    db.commit()
+    result = cursor.fetchall()
+    close(db)
+    return result
+
+#Selects all projects a user is a  member of
+def select_member_projects(user_id):
+    db = connect()
+    cursor = db.cursor()
+    sql = 'SELECT project_id FROM project_members WHERE user_id = (%s)'
+    val = (user_id)
+    cursor.execute(sql,val)
+    db.commit()
+    result = cursor.fetchall()
+    close(db)
+    return result
+
+#CLOSE FUNCTION
 def close(db):
     db.close()

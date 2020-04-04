@@ -24,7 +24,7 @@ def insert_user(first_name, last_name, email, password, image):
 def insert_project(title, description, types, image, mem_count):
     db = connect()
     cursor = db.cursor()
-    sql = 'INSERT INTO project (title, desciption, type, image, mem_count) VALUES (%s, %s, %s, %s, %s)'
+    sql = 'INSERT INTO project (title, description, type, image, mem_count) VALUES (%s, %s, %s, %s, %s)'
     val = (title, description, types, image, mem_count)
     cursor.execute(sql, val)
     db.commit()

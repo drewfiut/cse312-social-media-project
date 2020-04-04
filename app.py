@@ -1,6 +1,8 @@
 from flask import Flask, render_template, url_for, flash, redirect
 from forms import RegistrationForm, PostForm
 import database as db
+import secrets
+import os
 
 app = Flask(__name__)
 
@@ -29,7 +31,10 @@ def post():
     if form.validate_on_submit():
         title = form.title.data
         description = form.description.data
-        db.insert_project(title, description, 'none', 'none', 'image')
+        types = form.types.data
+        image = form.image.data.read()
+        count = form.number.data
+        db.insert_project(title, description, types, image, count)
         flash('Project Created for {}.'.format(form.title.data), 'success')
         return redirect(url_for('projects'))
     return render_template('post.html', form=form)

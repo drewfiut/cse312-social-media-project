@@ -1,5 +1,6 @@
 from flask import Flask, render_template, url_for, flash, redirect
 from forms import RegistrationForm, PostForm
+import database as db
 
 app = Flask(__name__)
 
@@ -22,9 +23,15 @@ def friends():
 def feed():
     return render_template('mainfeed.html')
 
-@app.route('/post')
+@app.route('/post', methods=['GET', 'POST'])
 def post():
     form = PostForm()
+    if form.validate_on_submit():
+        title = form.title.data
+        description = form.description.data
+        db.insert_project(title, description, 'none', 'none', 'image')
+        flash('Project Created for {}.'.format(form.title.data), 'success')
+        return redirect(url_for('projects'))
     return render_template('post.html', form=form)
 
 @app.route('/profile')
@@ -40,9 +47,9 @@ def registration():
     #return render_template('registration.html')
     form = RegistrationForm()
     if form.validate_on_submit():
-        # flash(f'Account created for {form.first_name.data}!', 'success')
+        flash('Account created for {}!'.format(form.first_name.data), 'success')
         return redirect(url_for('home'))
-    return render_template('registeration.html', title='Register', form=form)
+    return render_template('registration.html', title='Register', form=form)
 
 @app.route('/signin')
 def signin():

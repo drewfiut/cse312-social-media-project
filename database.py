@@ -2,30 +2,26 @@ import os
 import mysql.connector
 
 def connect():
-    server = 'remotemysql.com:3306'
-    user = 'ZEhM9JKxvN'
-    passwd = os.environ['MYSQL_PASSWORD']
-    database = 'ZEhM9JKxvN'
-    db = mysql.connector.connect(server, user, passwd, database)
+    db = mysql.connector.connect(host='remotemysql.com', user='ZEhM9JKxvN', passwd=os.environ['MYSQL_PASSWORD'], database='ZEhM9JKxvN')
     return db
 
 
-def insert_user(first, last, email, passwd, image):
+def insert_user(first_name, last_name, email, password, image):
     db = connect()
-    cursor = db.mycursor()
-    sql = 'INSERT INTO user VALUES (%s, %s, %s, %s, %s)'
-    val = (first, last, email, passwd, image)
+    cursor = db.cursor()
+    sql = 'INSERT INTO user (first_name, last_name, email, password, image)VALUES (%s, %s, %s, %s, %s)'
+    val = (first_name, last_name, email, password, image)
     cursor.execute(sql, val)
     db.commit()
     user_id = cursor.lastrowid
     close(db)
     return user_id
 
-def insert_project(title, description, skills, types, image):
+def insert_project(title, description, types, image, mem_count):
     db = connect()
-    cursor = db.mycursor()
-    sql = 'INSERT INTO project VALUES (%s, %s, %s, %s, %s)'
-    val = (title, description, skills, types, image)
+    cursor = db.cursor()
+    sql = 'INSERT INTO project (title, desciption, skills, type, mem_count) VALUES (%s, %s, %s, %s, %s)'
+    val = (title, description, types, image, mem_count)
     cursor.execute(sql, val)
     db.commit()
     project_id = cursor.lastrowid
@@ -34,8 +30,8 @@ def insert_project(title, description, skills, types, image):
 
 def insert_friend(sender_id, receiver_id):
     db = connect()
-    cursor = db.mycursor()
-    sql = 'INSERT INTO friend VALUES (%s, %s)'
+    cursor = db.cursor()
+    sql = 'INSERT INTO friend (sender_id, receiver_id) VALUES (%s, %s)'
     val = (sender_id, receiver_id)
     cursor.execute(sql, val)
     db.commit()
@@ -45,8 +41,8 @@ def insert_friend(sender_id, receiver_id):
 
 def insert_likes(user_id, project_id):
     db = connect()
-    cursor = db.mycursor()
-    sql = 'INSERT INTO likes VALUES (%s, %s)'
+    cursor = db.cursor()
+    sql = 'INSERT INTO likes (user_id, project_id) VALUES (%s, %s)'
     val = (user_id, project_id)
     cursor.execute(sql, val)
     db.commit()
@@ -56,8 +52,8 @@ def insert_likes(user_id, project_id):
 
 def insert_comments(user_id, project_id, comment):
     db = connect()
-    cursor = db.mycursor()
-    sql = 'INSERT INTO comments VALUES (%s, %s, %s)'
+    cursor = db.cursor()
+    sql = 'INSERT INTO comments (user_id, project_id, comment)VALUES (%s, %s, %s)'
     val = (user_id, project_id, comment)
     cursor.execute(sql, val)
     db.commit()
@@ -67,8 +63,8 @@ def insert_comments(user_id, project_id, comment):
 
 def insert_project_members(user_id, project_id):
     db = connect()
-    cursor = db.mycursor()
-    sql = 'INSERT INTO project_members VALUES (%s, %s)'
+    cursor = db.cursor()
+    sql = 'INSERT INTO project_members (user_id, project_id) VALUES (%s, %s)'
     val = (user_id, project_id)
     cursor.execute(sql, val)
     db.commit()

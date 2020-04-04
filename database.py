@@ -72,5 +72,16 @@ def insert_project_members(user_id, project_id):
     close(db)
     return project_member_id
 
+def select_project(project_id):
+    db = connect();
+    cursor = db.cursor()
+    sql = 'SELECT title, description, type, image, mem_count FROM project where id = (%s)'
+    val = (project_id)
+    cursor.execute(sql,val)
+    db.commit()
+    result = cursor.fetchall()
+    close(db)
+    return result
+
 def close(db):
     db.close()

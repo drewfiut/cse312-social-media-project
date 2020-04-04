@@ -1,7 +1,9 @@
 from flask import Flask, render_template, url_for, flash, redirect
-from forms import RegistrationForm 
+from forms import RegistrationForm, PostForm
 
 app = Flask(__name__)
+
+app.config['SECRET_KEY'] = 'abadsecretkey'
 
 @app.route('/')
 @app.route('/home')
@@ -22,7 +24,8 @@ def feed():
 
 @app.route('/post')
 def post():
-    return render_template('post.html')
+    form = PostForm()
+    return render_template('post.html', form=form)
 
 @app.route('/profile')
 def profile():
@@ -37,7 +40,7 @@ def registration():
     #return render_template('registration.html')
     form = RegistrationForm()
     if form.validate_on_submit():
-        flash(f'Account created for {form.first_name.data}!', 'success')
+        # flash(f'Account created for {form.first_name.data}!', 'success')
         return redirect(url_for('home'))
     return render_template('registeration.html', title='Register', form=form)
 

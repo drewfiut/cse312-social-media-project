@@ -12,3 +12,9 @@ class RegistrationForm(FlaskForm):
                         validators=[DataRequired(), Email()])
     password = PasswordField('Password', validators=[DataRequired()])
     submit = SubmitField('Join')
+
+class PostForm(FlaskForm):
+    title = StringField('title', validators=[DataRequired()])
+    description = StringField('description')
+    number = StringField('number')
+    post = SubmitField('Post')

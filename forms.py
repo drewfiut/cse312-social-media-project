@@ -14,6 +14,12 @@ class RegistrationForm(FlaskForm):
     password = PasswordField('Password', validators=[DataRequired()])
     submit = SubmitField('Join')
 
+class CommentForm(FlaskForm):
+    project = StringField('Project', validators=[DataRequired()])
+    user = StringField('User', validators=[DataRequired()])
+    comment = TextAreaField('Comment', validators=[DataRequired()])
+    post = SubmitField('Submit')
+
 class PostForm(FlaskForm):
     title = StringField('Title', validators=[DataRequired()])
     description = TextAreaField('Description', validators=[DataRequired()])

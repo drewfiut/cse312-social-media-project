@@ -58,6 +58,12 @@ def registration():
 
 @app.route('/signin')
 def signin():
+    form = LoginForm()
+    if form.validate_on_submit() :
+        flash('Successful! Welcome {}!'.format(form.first_name.data), 'success')
+        return redirect(url_for('home'))
+    else :
+        return redirect(url_for('registration'))
     return render_template('signin.html')
 
 @app.route('/hippo')

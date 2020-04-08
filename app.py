@@ -1,5 +1,5 @@
 from flask import Flask, render_template, url_for, flash, redirect
-from forms import RegistrationForm, PostForm
+from forms import RegistrationForm, PostForm, CommentForm
 import database as db
 import secrets
 import os
@@ -47,7 +47,7 @@ def profile():
 def projects():
     return render_template('projects.html')
 
-@app.route('/registration')
+@app.route('/registration', methods=['GET', 'POST'])
 def registration():
     #return render_template('registration.html')
     form = RegistrationForm()
@@ -75,13 +75,27 @@ def signin():
         return redirect(url_for('registration'))
     return render_template('signin.html')
 
-@app.route('/hippo')
+@app.route('/hippo',  methods=['GET', 'POST'])
 def hippo_proj():
-    return render_template('hippo_project.html')
+    form = CommentForm()
+    if form.validate_on_submit():
+        user = 'user'
+        project = 'hippo'
+        comment = form.comment.data
+        db.insert_comments(user, project, comment)
+    comments = db.select_comment_project('hippo')
+    return render_template('hippo_project.html', form=form, comments=comments)
 
-@app.route('/rocket')
+@app.route('/rocket',  methods=['GET', 'POST'])
 def rocket_proj():
-    return render_template('rocket_project.html')
+    form = CommentForm()
+    if form.validate_on_submit():
+        user = 'user'
+        project = 'rocket'
+        comment = form.comment.data
+        db.insert_comments(user, project, comment)
+    comments = db.select_comment_project('rocket')
+    return render_template('rocket_project.html', form=form, comments=comments)
 
 @app.route('/likes')
 def likes():

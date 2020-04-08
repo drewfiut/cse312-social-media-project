@@ -60,12 +60,19 @@
 			</div>
 			<div class="card my-4">
 				<h5 class="card-header">Leave a Comment:</h5>
+				{% for comment in comments %}
+					<p> {{ comment.comment }} </p>
+				{% endfor %}
 				<div class="card-body">
-				  <form>
+				  <form action="" method="POST">
+					  {{ form.hidden_tag() }}
+
 					<div class="form-group">
-					  <textarea class="form-control" rows="3"></textarea>
+					  <!--textarea class="form-control" rows="3"></textarea-->
+					  {{ form.comment(class="form-control" rows="3") }}
 					</div>
-					<button type="submit" class="btn btn-primary">Submit</button>
+					<!--button type="submit" class="btn btn-primary">Submit</button-->
+					{{ form.post(class="btn btn-primary") }}
 				  </form>
 				</div>
 			  </div>

@@ -68,6 +68,7 @@ def signin():
         email = form.email.data
         password = form.password.data
         db.select_user(email)
+        # TODO: Fill in database implementation
         flash('Successful! Welcome {}!'.format(form.first_name.data), 'success')
         return redirect(url_for('home'))
     else :

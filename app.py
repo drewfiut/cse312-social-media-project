@@ -65,6 +65,9 @@ def registration():
 def signin():
     form = LoginForm()
     if form.validate_on_submit() :
+        email = form.email.data
+        password = form.password.data
+        db.select_user(email)
         flash('Successful! Welcome {}!'.format(form.first_name.data), 'success')
         return redirect(url_for('home'))
     else :

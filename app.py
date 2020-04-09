@@ -4,9 +4,11 @@ from base64 import b64encode
 import database as db
 import secrets
 import os
+from flask_socketio import SocketIO, send, emit
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'abadsecretkey'
+socketio = SocketIO(app)
 
 @app.route('/')
 @app.route('/home')
@@ -69,6 +71,10 @@ def like():
     db.insert_likes(like['user_id'], like['project_id'])
     return ''
 
+@socketio.on('like', namespace='/likes')
+def handle_my_custom_event(project_id):
+    likes = db.select_likes_count(project_id)[0][0]
+    emit('update', {'project_id': project_id, 'likes': likes}, broadcast=True)
 
 @app.route('/registration', methods=['GET', 'POST'])
 def registration():
@@ -134,4 +140,4 @@ def page_not_found(e):
     return render_template('404.html'), 404
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0')
+    socketio.run(app, debug=True, host='0.0.0.0')

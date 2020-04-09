@@ -19,6 +19,29 @@
 </head>
 
 <body>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"
+		integrity="sha256-yr4fRk/GU1ehYJPAs8P4JlTgu0Hdsp4ZKrx8bDEDC3I=" crossorigin="anonymous"></script>
+	<script type="text/javascript" charset="utf-8">
+		var socket = io('/likes');
+		socket.on('connect', function () {
+			socket.send('connected');
+		});
+
+		socket.on('update', function (data){
+			text = document.querySelector('#like_count_' + data.project_id);
+			text.textContent = data.likes;
+		});
+
+		function sendLike(project_id) {
+			var request = new XMLHttpRequest();
+			request.open("POST", "/like");
+			request.setRequestHeader("Content-Type", "application/json");
+			let user_id = 1;
+			let data = { 'user_id': user_id, 'project_id': parseInt(project_id) };
+			request.send(JSON.stringify(data));
+			socket.emit('like', project_id);
+		}
+	</script>
 
 
 	<nav class="navbar fixed-top navbar-expand-lg navbar-dark" style="background-color: #55BCC9;">
@@ -58,8 +81,9 @@
 		<div class="card mb-3 project_card">
 			<div class="row">
 				<div class="col-sm-1 align-self-center">
-					<button type="button" class="like_btn btn px-3" onclick="sendLike('{{ project.id }}'); return false;"><i class="fas fa-fire-alt"></i><span
-							id="like_count">{{ project.likes }}</span></button>
+					<button type="button" class="like_btn btn px-3"
+						onclick="sendLike('{{ project.id }}'); return false;"><i class="fas fa-fire-alt"></i><span
+							id="like_count_{{ project.id }}">{{ project.likes }}</span></button>
 				</div>
 				<div class="col-sm-4  align-self-center">
 					<img src="data:;base64,{{ project.image }}" class="card-img" alt="...">

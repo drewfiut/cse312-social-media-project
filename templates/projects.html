@@ -14,7 +14,6 @@
 	<link rel="stylesheet" href="{{ url_for('static', filename='projects.css') }}">
 	<link rel="stylesheet" href="{{ url_for('static', filename='project_card.css') }}">
 	<link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
-	<script src="{{ url_for('static', filename='projects.js') }}"></script>
 	<title>Project Page</title>
 </head>
 
@@ -22,24 +21,20 @@
 	<script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"
 		integrity="sha256-yr4fRk/GU1ehYJPAs8P4JlTgu0Hdsp4ZKrx8bDEDC3I=" crossorigin="anonymous"></script>
 	<script type="text/javascript" charset="utf-8">
-		var socket = io('/likes');
-		socket.on('connect', function () {
-			socket.send('connected');
+		var likes_socket = io('/likes');
+		likes_socket.on('connect', function () {
+			likes_socket.send('connected');
 		});
 
-		socket.on('update', function (data){
+		likes_socket.on('update', function (data){
 			text = document.querySelector('#like_count_' + data.project_id);
 			text.textContent = data.likes;
 		});
 
 		function sendLike(project_id) {
-			var request = new XMLHttpRequest();
-			request.open("POST", "/like");
-			request.setRequestHeader("Content-Type", "application/json");
 			let user_id = 1;
 			let data = { 'user_id': user_id, 'project_id': parseInt(project_id) };
-			request.send(JSON.stringify(data));
-			socket.emit('like', project_id);
+			likes_socket.emit('like', data);
 		}
 	</script>
 

@@ -65,14 +65,17 @@ def projects():
         projects.append(indiv)
     return render_template('projects.html', projects=projects)
 
-@app.route('/like', methods=['POST'])
-def like():
-    like = request.get_json()
-    db.insert_likes(like['user_id'], like['project_id'])
-    return ''
+# @app.route('/like', methods=['POST'])
+# def like():
+#     like = request.get_json()
+#     db.insert_likes(like['user_id'], like['project_id'])
+#     return ''
 
 @socketio.on('like', namespace='/likes')
-def handle_my_custom_event(project_id):
+def handle_my_custom_event(data):
+    user_id = data['user_id']
+    project_id = data['project_id']
+    db.insert_likes(user_id, project_id)
     likes = db.select_likes_count(project_id)[0][0]
     emit('update', {'project_id': project_id, 'likes': likes}, broadcast=True)
 

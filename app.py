@@ -65,12 +65,6 @@ def projects():
         projects.append(indiv)
     return render_template('projects.html', projects=projects)
 
-# @app.route('/like', methods=['POST'])
-# def like():
-#     like = request.get_json()
-#     db.insert_likes(like['user_id'], like['project_id'])
-#     return ''
-
 @socketio.on('like', namespace='/likes')
 def handle_my_custom_event(data):
     user_id = data['user_id']
@@ -121,14 +115,10 @@ def project(project_id):
                     'description': data[1],
                     'type': data[2],
                     'image': image,
-                    'count': data[4]
+                    'count': data[4],
+                    'id': project_id
                     }
         form = CommentForm()
-        if form.validate_on_submit():
-            user_id = 1
-            comment = form.comment.data
-            db.insert_comments(user_id, project_id, comment)
-            return redirect(url_for('project', project_id=project_id))
         comment_list = db.select_comment_project(project_id)
         comments = []
         for comment in comment_list:
@@ -137,6 +127,16 @@ def project(project_id):
             comments.append(x)
         return render_template('project.html', project=project, form=form, comments=comments)
     return render_template('404.html'), 404
+
+@socketio.on('comment', namespace='/comments')
+def handle_my_custom_event(data):
+    user_id = data['user_id']
+    project_id = data['project_id']
+    comment = data['comment']
+    db.insert_comments(user_id, project_id, comment)
+    user = db.select_user(user_id)[0]
+    name = user[0] + ' ' + user[1]
+    emit('update', {'name': name, 'project_id': project_id, 'comment': comment}, broadcast=True)
 
 @app.errorhandler(404)
 def page_not_found(e):

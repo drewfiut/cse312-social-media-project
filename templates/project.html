@@ -14,6 +14,29 @@
 </head>
 
 <body>
+
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"
+        integrity="sha256-yr4fRk/GU1ehYJPAs8P4JlTgu0Hdsp4ZKrx8bDEDC3I=" crossorigin="anonymous"></script>
+    <script type="text/javascript" charset="utf-8">
+        var likes_socket = io('/comments');
+        likes_socket.on('connect', function () {
+            likes_socket.send('connected');
+        });
+
+        likes_socket.on('update', function (data) {
+            text = document.querySelector('#new');
+            text.innerHTML += '<p> <strong>' + data.name + ': </strong>' + data.comment + '</p>';
+        });
+
+        function sendComment(project_id) {
+            let user_id = 1;
+            comment = document.querySelector('#comment').value
+            document.querySelector('#comment').value = ''
+            let data = { 'user_id': user_id, 'project_id': parseInt(project_id), 'comment': comment };
+            likes_socket.emit('comment', data);
+        }
+    </script>
     <nav class="navbar fixed-top navbar-expand-lg navbar-dark" style="background-color: #55BCC9;">
         <div class="container">
             <a class="navbar-brand" href="{{ url_for('home') }}">project<span class="pink">hookup</span></a>
@@ -84,13 +107,14 @@
                 {% for comment in comments %}
                 <p> <strong>{{ comment.name }}: </strong>{{ comment.text }} </p>
                 {% endfor %}
+                <div id="new"></div>
 
-                <form action="" method="POST">
+                <form onsubmit="sendComment('{{ project.id }}'); return false;">
                     {{ form.hidden_tag() }}
 
                     <div class="form-group">
                         <!--textarea class="form-control" rows="3"></textarea-->
-                        {{ form.comment(class="form-control", rows="3") }}
+                        {{ form.comment(class="form-control", rows="3", id="comment") }}
                     </div>
                     <!--button type="submit" class="btn btn-primary">Submit</button-->
                     {{ form.post(class="btn btn-primary") }}

@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for, flash, redirect
+from flask import Flask, render_template, url_for, flash, redirect, request
 from forms import RegistrationForm, PostForm, CommentForm
 from base64 import b64encode
 import database as db
@@ -6,7 +6,6 @@ import secrets
 import os
 
 app = Flask(__name__)
-
 app.config['SECRET_KEY'] = 'abadsecretkey'
 
 @app.route('/')
@@ -50,15 +49,26 @@ def projects():
     projects = []
     for item in project_list:
         image = b64encode(item[3]).decode('"utf-8"')
-        indiv = {'title': item[0],
+        id = item[5]
+        likes = db.select_likes_count(id)[0][0]
+        indiv = {
+                 'title': item[0],
                  'description': item[1],
                  'type': item[2],
                  'image': image,
                  'count': item[4],
-                 'id': item[5]
+                 'id': id,
+                 'likes': likes
                 }
         projects.append(indiv)
     return render_template('projects.html', projects=projects)
+
+@app.route('/like', methods=['POST'])
+def like():
+    like = request.get_json()
+    db.insert_likes(like['user_id'], like['project_id'])
+    return ''
+
 
 @app.route('/registration', methods=['GET', 'POST'])
 def registration():

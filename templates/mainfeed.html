@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en">
+
 <head>
 	<!-- Required meta tags -->
 	<meta charset="utf-8">
@@ -7,13 +8,14 @@
 
 	<!-- Bootstrap CSS -->
 	<script src="https://kit.fontawesome.com/e81097064e.js" crossorigin="anonymous"></script>
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+		integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 	<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 	<link rel="stylesheet" href="{{ url_for('static', filename='projects.css') }}">
-	<link rel="stylesheet" href="{{ url_for('static', filename='project_card.css') }}">
 	<link rel="stylesheet" href="{{ url_for('static', filename='mainfeed.css') }}">
+	<link rel="stylesheet" href="{{ url_for('static', filename='project_card.css') }}">
 	<link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
-	<title>Project Feed</title>
+	<title>Main Feed</title>
 </head>
 
 <body>
@@ -72,10 +74,13 @@
 				</div>`;
 		});
 	</script>
+
+
 	<nav class="navbar fixed-top navbar-expand-lg navbar-dark" style="background-color: #55BCC9;">
 		<div class="container">
 			<a class="navbar-brand" href="{{ url_for('home') }}">project<span class="pink">hookup</span></a>
-			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+				aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
 			</button>
 
@@ -84,7 +89,7 @@
 					<li class="nav-item">
 						<a class="nav-link" href="{{ url_for('feed') }}">Home</a>
 					</li>
-                    <li class="nav-item">
+					<li class="nav-item">
 						<a class="nav-link" href="{{ url_for('projects') }}">Projects</a>
 					</li>
 				</ul>
@@ -93,19 +98,17 @@
 						<a class="nav-link" href="{{ url_for('profile') }}">Profile</a>
 					</li>
 					<li class="nav-item">
-						<a class="btn my-2 my-sm-0 nav_button_outline" type="button" href="">Sign out</a>
+						<button class="btn my-2 my-sm-0 nav_button_outline" type="button">Sign out</button>
 					</li>
-					
+
 				</ul>
 			</div>
 		</div>
 	</nav>
 
-	<h1>Recent Updates</h1>
-	<br/>
-	
 	<div id="new-post"></div>
-	{% for project in mainfeed %}
+
+	{% for project in projects %}
 
 	<div class="project_deck container">
 
@@ -137,7 +140,7 @@
 	{% endfor %}
 
 
-	<h1>New Collaborators</h1>
+	<h1 style="text-align: center; color: #2a4247;">New Collaborators</h1>
 
 	<div class="container my-5">
 		<div class="row my-5">

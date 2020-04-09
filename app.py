@@ -1,5 +1,5 @@
 from flask import Flask, render_template, url_for, flash, redirect, request
-from forms import RegistrationForm, PostForm, CommentForm
+from forms import RegistrationForm, PostForm, CommentForm, LoginForm
 from base64 import b64encode
 import database as db
 import secrets
@@ -25,7 +25,24 @@ def friends():
 
 @app.route('/feed')
 def feed():
-    return render_template('mainfeed.html')
+    project_list = db.select_projects_all()
+    projects = []
+    for item in project_list:
+        image = b64encode(item[3]).decode('"utf-8"')
+        id = item[5]
+        likes = db.select_likes_count(id)[0][0]
+        indiv = {
+                 'title': item[0],
+                 'description': item[1],
+                 'type': item[2],
+                 'image': image,
+                 'count': item[4],
+                 'id': id,
+                 'likes': likes
+                }
+        projects.append(indiv)
+    projects.reverse()
+    return render_template('mainfeed.html', projects=projects)
 
 @app.route('/post', methods=['GET', 'POST'])
 def post():
@@ -68,6 +85,7 @@ def projects():
     projects.reverse()
     return render_template('projects.html', projects=projects)
 
+
 @socketio.on('like', namespace='/likes')
 def handle_my_custom_event(data):
     user_id = data['user_id']
@@ -100,8 +118,6 @@ def signin():
         # TODO: Fill in database implementation
         flash('Successful! Welcome {}!'.format(form.first_name.data), 'success')
         return redirect(url_for('home'))
-    else :
-        return redirect(url_for('registration'))
     return render_template('signin.html')
 
 @app.route('/likes')

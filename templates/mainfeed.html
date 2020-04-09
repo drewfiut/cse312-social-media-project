@@ -14,10 +14,64 @@
 	<link rel="stylesheet" href="{{ url_for('static', filename='mainfeed.css') }}">
 	<link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
 	<title>Project Feed</title>
-
-	<title>Project Page</title>
 </head>
+
 <body>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"
+		integrity="sha256-yr4fRk/GU1ehYJPAs8P4JlTgu0Hdsp4ZKrx8bDEDC3I=" crossorigin="anonymous"></script>
+	<script type="text/javascript" charset="utf-8">
+		// Socket for likes
+		var likes_socket = io('/likes');
+		likes_socket.on('connect', function () {
+			likes_socket.send('connected');
+		});
+
+		likes_socket.on('update', function (data) {
+			text = document.querySelector('#like_count_' + data.project_id);
+			text.textContent = data.likes;
+		});
+
+		function sendLike(project_id) {
+			let user_id = 1;
+			let data = { 'user_id': user_id, 'project_id': parseInt(project_id) };
+			likes_socket.emit('like', data);
+		}
+		// Socket for new Posts
+		var posts_socket = io('/posts');
+		posts_socket.on('connect', function () {
+			posts_socket.send('connected');
+		});
+
+		posts_socket.on('update', function (data) {
+			text = document.querySelector('#new-post');
+			text.innerHTML += `<div class="project_deck container">
+
+				<div class="card mb-3 project_card">
+					<div class="row">
+						<div class="col-sm-1 align-self-center">
+							<button type="button" class="like_btn btn px-3"
+								onclick="sendLike('` + data.id + `'); return false;"><i class="fas fa-fire-alt"></i><span
+									id="like_count_` + data.id + `">0</span></button>
+						</div>
+						<div class="col-sm-4  align-self-center">
+							<img src="data:;base64,` + data.image + `" class="card-img" alt="...">
+		</div>
+							<div class="col-sm">
+								<div class="card-body">
+									<h5 class="card-title pink">` + data.title + `</h5>
+									<p class="card-text" id="descroption">` + data.description + `</p>
+									<p class="card-text" id="skills"><strong>Type: </strong>` + data.type + `</p>
+									<p class="card-text" id=""><i class="fas fa-users"></i> ` + data.count + ` collaborators needed
+				</p>
+									<a href="/project/` + data.id + `"
+										class="btn my-2 my-sm-0 nav_button_primary btn-lg" type="button">View Project</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>`;
+		});
+	</script>
 	<nav class="navbar fixed-top navbar-expand-lg navbar-dark" style="background-color: #55BCC9;">
 		<div class="container">
 			<a class="navbar-brand" href="{{ url_for('home') }}">project<span class="pink">hookup</span></a>
@@ -50,35 +104,38 @@
 	<h1>Recent Updates</h1>
 	<br/>
 	
-    <div class="project_deck container">
+	<div id="new-post"></div>
+	{% for project in mainfeed %}
 
-			<div class="card mb-3 project_card" >
-				<div class="row">
-					<div class="col-sm-1 align-self-center">
-						<button type="button" class="like_btn btn px-3"><i class="fas fa-fire-alt"></i><span id="like_count">0</span></button>
-					</div>
-					<div class="col-sm-4  align-self-center">
-						<img src="{{ url_for('static', filename='1_example_logo.jpg') }}" class="card-img" alt="...">
-					</div>
-					  <div class="col-sm">
-						<div class="card-body">
-							  <h5 class="card-title pink">Hippo</h5>
-							  <p class="card-header" id="header"><strong>Update:</strong> Progress has been made....</p>
-							  <p class="card-text" id="descroption">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in</p>
-							 <p class="card-text" id="skills"><strong>Skills:</strong> Python, Javascript, HTML, CSS</p>
-							<p class="card-text" id=""><i class="fas fa-users"></i>  3/5 collaborators</p>
-						</div>
-					</div>
+	<div class="project_deck container">
+
+		<div class="card mb-3 project_card">
+			<div class="row">
+				<div class="col-sm-1 align-self-center">
+					<button type="button" class="like_btn btn px-3"
+						onclick="sendLike('{{ project.id }}'); return false;"><i class="fas fa-fire-alt"></i><span
+							id="like_count_{{ project.id }}">{{ project.likes }}</span></button>
 				</div>
-				<div class="row">
-					<div class="col-sm-10"></div>
-					<div class="col">
-						<a href="" id="view_link" ><u>View Project>></u></a>
+				<div class="col-sm-4  align-self-center">
+					<img src="data:;base64,{{ project.image }}" class="card-img" alt="...">
+				</div>
+				<div class="col-sm">
+					<div class="card-body">
+						<h5 class="card-title pink">{{ project.title }}</h5>
+						<p class="card-text" id="descroption">{{ project.description }}</p>
+						<p class="card-text" id="skills"><strong>Type: </strong>{{ project.type }}</p>
+						<p class="card-text" id=""><i class="fas fa-users"></i> {{ project.count }} collaborators needed
+						</p>
+						<a href="{{ url_for('project', project_id=project.id) }}"
+							class="btn my-2 my-sm-0 nav_button_primary btn-lg" type="button">View Project</a>
 					</div>
 				</div>
 			</div>
-
+		</div>
 	</div>
+
+	{% endfor %}
+
 
 	<h1>New Collaborators</h1>
 
@@ -98,8 +155,20 @@
 
 	<!-- Optional JavaScript -->
 	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
-	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+	<script 
+	src="https://code.jquery.com/jquery-3.4.1.slim.min.js" 
+	integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" 
+	crossorigin="anonymous">
+	</script>
+	<script 
+	src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" 
+	integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" 
+	crossorigin="anonymous">
+	</script>
+	<script 
+	src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" 
+	integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" 
+	crossorigin="anonymous">
+	</script>
 </body>
 </html>

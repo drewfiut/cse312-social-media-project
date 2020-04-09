@@ -36,8 +36,10 @@ def post():
         types = form.types.data
         image = form.image.data.read()
         count = form.number.data
-        db.insert_project(title, description, types, image, count)
+        project_id = db.insert_project(title, description, types, image, count)
         flash('Project Created for {}.'.format(form.title.data), 'success')
+        image = b64encode(image).decode('"utf-8"')
+        socketio.emit('update', {'title': title, 'description': description, 'types': types, 'image': image, 'count': count, 'id': project_id}, namespace='/posts')
         return redirect(url_for('projects'))
     return render_template('post.html', form=form)
 
@@ -63,6 +65,7 @@ def projects():
                  'likes': likes
                 }
         projects.append(indiv)
+    projects.reverse()
     return render_template('projects.html', projects=projects)
 
 @socketio.on('like', namespace='/likes')

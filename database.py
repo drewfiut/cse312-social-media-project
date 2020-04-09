@@ -87,9 +87,8 @@ def select_user(user_id):
     db = connect()
     cursor = db.cursor()
     sql = 'SELECT first_name, last_name, email, password, image FROM user WHERE id = (%s)'
-    val = (user_id)
+    val = (user_id,)
     cursor.execute(sql,val)
-    db.commit()
     result = cursor.fetchall()
     close(db)
     return result
@@ -99,9 +98,19 @@ def select_project(project_id):
     db = connect()
     cursor = db.cursor()
     sql = 'SELECT title, description, type, image, mem_count FROM project WHERE id = (%s)'
-    val = (project_id)
+    val = (project_id,)
     cursor.execute(sql,val)
-    db.commit()
+    result = cursor.fetchall()
+    close(db)
+    return result
+
+#Selects all project from the project table
+def select_projects_all():
+    db = connect()
+    cursor = db.cursor()
+    sql = 'SELECT title, description, type, image, mem_count, id FROM project'
+    val = ()
+    cursor.execute(sql,val)
     result = cursor.fetchall()
     close(db)
     return result
@@ -113,7 +122,6 @@ def select_friends(user_id):
     sql = 'SELECT sender_id, receiver_id FROM friend WHERE sender_id = (%s) OR receiver_id = (%s)'
     val = (user_id, user_id)
     cursor.execute(sql,val)
-    db.commit()
     result = cursor.fetchall()
     close(db)
     return result
@@ -123,21 +131,19 @@ def select_comment_project(project_id):
     db = connect()
     cursor = db.cursor()
     sql = 'SELECT user_id, comment FROM comments WHERE project_id = (%s)'
-    val = (project_id)
+    val = (project_id,)
     cursor.execute(sql,val)
-    db.commit()
     result = cursor.fetchall()
     close(db)
     return result
 
 #Selects all comments left by a user
-def select_comment_project(user_id):
+def select_comment_user(user_id):
     db = connect()
     cursor = db.cursor()
     sql = 'SELECT project_id, comment FROM comments WHERE user_id = (%s)'
-    val = (user_id)
+    val = (user_id,)
     cursor.execute(sql,val)
-    db.commit()
     result = cursor.fetchall()
     close(db)
     return result
@@ -147,9 +153,8 @@ def select_likes_count(project_id):
     db = connect()
     cursor = db.cursor()
     sql = 'SELECT COUNT(*) FROM likes WHERE project_id = (%s)'
-    val = (project_id)
+    val = (project_id,)
     cursor.execute(sql,val)
-    db.commit()
     result = cursor.fetchall()
     close(db)
     return result
@@ -159,9 +164,8 @@ def select_likes_user(user_id):
     db = connect()
     cursor = db.cursor()
     sql = 'SELECT project_id FROM likes WHERE user_id = (%s)'
-    val = (user_id)
+    val = (user_id,)
     cursor.execute(sql,val)
-    db.commit()
     result = cursor.fetchall()
     close(db)
     return result
@@ -171,9 +175,8 @@ def select_project_members(project_id):
     db = connect()
     cursor = db.cursor()
     sql = 'SELECT user_id FROM project_members WHERE project_id = (%s)'
-    val = (project_id)
+    val = (project_id,)
     cursor.execute(sql,val)
-    db.commit()
     result = cursor.fetchall()
     close(db)
     return result
@@ -183,9 +186,8 @@ def select_member_projects(user_id):
     db = connect()
     cursor = db.cursor()
     sql = 'SELECT project_id FROM project_members WHERE user_id = (%s)'
-    val = (user_id)
+    val = (user_id,)
     cursor.execute(sql,val)
-    db.commit()
     result = cursor.fetchall()
     close(db)
     return result

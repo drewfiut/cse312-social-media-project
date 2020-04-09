@@ -15,8 +15,6 @@ class RegistrationForm(FlaskForm):
     submit = SubmitField('Join')
 
 class CommentForm(FlaskForm):
-    project = StringField('Project', validators=[DataRequired()])
-    user = StringField('User', validators=[DataRequired()])
     comment = TextAreaField('Comment', validators=[DataRequired()])
     post = SubmitField('Submit')
 
@@ -25,12 +23,12 @@ class PostForm(FlaskForm):
     description = TextAreaField('Description', validators=[DataRequired()])
     number = IntegerField('Desired Number of Members', validators=[DataRequired()])
     types = SelectField('Type of Project', validators=[DataRequired()], choices=[
-                                                    ('general', 'General'),
-                                                    ('cp', 'Computer Programming'),
-                                                    ('business', 'Business'),
-                                                    ('creative', 'Creative'),
-                                                    ('mp', 'Manufacturing/Products'),
-                                                    ('other', 'Other')])
+                                                    ('General', 'General'),
+                                                    ('Computer Programming', 'Computer Programming'),
+                                                    ('Business', 'Business'),
+                                                    ('Creative', 'Creative'),
+                                                    ('Manufacturing/Products', 'Manufacturing/Products'),
+                                                    ('Other', 'Other')])
     image = FileField('Image', validators=[DataRequired(), FileAllowed(['jpg'])])
     post = SubmitField('Post')
 

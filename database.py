@@ -21,11 +21,11 @@ def insert_user(first_name, last_name, email, password, image):
     return user_id
 
 #Inserts a new project into the project table
-def insert_project(title, description, types, image, mem_count):
+def insert_project(title, description, types, image, mem_count, auth_id):
     db = connect()
     cursor = db.cursor()
-    sql = 'INSERT INTO project (title, description, type, image, mem_count) VALUES (%s, %s, %s, %s, %s)'
-    val = (title, description, types, image, mem_count)
+    sql = 'INSERT INTO project (title, description, type, image, mem_count, auth_id) VALUES (%s, %s, %s, %s, %s, %s)'
+    val = (title, description, types, image, mem_count, auth_id)
     cursor.execute(sql, val)
     db.commit()
     project_id = cursor.lastrowid
@@ -97,7 +97,7 @@ def select_user(user_id):
 def select_project(project_id):
     db = connect()
     cursor = db.cursor()
-    sql = 'SELECT title, description, type, image, mem_count FROM project WHERE id = (%s)'
+    sql = 'SELECT title, description, type, image, mem_count, auth_id FROM project WHERE id = (%s)'
     val = (project_id,)
     cursor.execute(sql,val)
     result = cursor.fetchall()

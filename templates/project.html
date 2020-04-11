@@ -1,20 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <!-- Bootstrap CSS -->
-    <script src="https://kit.fontawesome.com/e81097064e.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='projects.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='project_page.css') }}">
-    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
-    <title>Project Page</title>
-</head>
-
-<body>
-
+{% extends 'base.html' %}
+{% block content %}
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"
         integrity="sha256-yr4fRk/GU1ehYJPAs8P4JlTgu0Hdsp4ZKrx8bDEDC3I=" crossorigin="anonymous"></script>
@@ -37,58 +22,29 @@
             likes_socket.emit('comment', data);
         }
     </script>
-    <nav class="navbar fixed-top navbar-expand-lg navbar-dark" style="background-color: #55BCC9;">
-        <div class="container">
-            <a class="navbar-brand" href="{{ url_for('home') }}">project<span class="pink">hookup</span></a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('feed') }}">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('projects') }}">Projects</a>
-                    </li>
-                </ul>
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('profile') }}">Profile</a>
-                    </li>
-                    <li class="nav-item">
-                        <button class="btn my-2 my-sm-0 nav_button_outline" type="button">Sign out</button>
-                    </li>
-
-                </ul>
-            </div>
-        </div>
-    </nav>
 
     <div class="container">
         <h1 class="pink" id="project_name">{{ project.title }}</h1>
-        <p>Initialized By Drew Fiutko</p>
+        <p>Initialized By {{ project.author_name }}</p>
         <hr>
         <div class="row">
-            <div class="col-lg-8">
-                <img class="img-fluid rounded" id="logo" src="data:;base64,{{ project.image }}" alt="">
+            <div class="col-md-9">
+                <img class="w-100 h-auto" id="logo" src="data:;base64,{{ project.image }}" alt="">
                 <hr>
                 <p id="description">{{ project.description }}</p>
             </div>
 
-            <div class="col-md-4">
-                <div class="row">
-                    <div class="card my-3">
+            <div class="col-md-3">
+                <div class="row justify-content-center">
+                    <div class="card mb-3">
                         <h5 class="card-header">Type of Project</h5>
                         <div class="card-body">
                             {{ project.type }}
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="card my-3">
+                <div class="row justify-content-center">
+                    <div class="card">
                         <h5 class="card-header">Members</h5>
                         <div class="card-body">
                             <ul>
@@ -123,6 +79,5 @@
 
         </div>
     </div>
-</body>
 
-</html>
+{% endblock content %}

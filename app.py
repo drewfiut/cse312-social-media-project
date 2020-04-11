@@ -13,7 +13,7 @@ socketio = SocketIO(app)
 @app.route('/')
 @app.route('/home')
 def home():
-    return render_template('index.html')
+    return render_template('index.html', title='Home')
 
 @app.route('/dm')
 def dm():
@@ -53,7 +53,8 @@ def post():
         types = form.types.data
         image = form.image.data.read()
         count = form.number.data
-        project_id = db.insert_project(title, description, types, image, count)
+        auth_id = 1
+        project_id = db.insert_project(title, description, types, image, count, auth_id)
         flash('Project Created for {}.'.format(form.title.data), 'success')
         image = b64encode(image).decode('"utf-8"')
         socketio.emit('update', {'title': title, 'description': description, 'types': types, 'image': image, 'count': count, 'id': project_id}, namespace='/posts')
@@ -84,7 +85,6 @@ def projects():
         projects.append(indiv)
     projects.reverse()
     return render_template('projects.html', projects=projects)
-
 
 @socketio.on('like', namespace='/likes')
 def handle_my_custom_event(data):
@@ -130,12 +130,14 @@ def project(project_id):
     if data:
         data = data[0]
         image = b64encode(data[3]).decode('"utf-8"')
+        author = db.select_user(data[5])[0]
         project = {'title': data[0],
                     'description': data[1],
                     'type': data[2],
                     'image': image,
                     'count': data[4],
-                    'id': project_id
+                    'id': project_id,
+                    'author_name': author[0] + ' ' + author[1]
                     }
         form = CommentForm()
         comment_list = db.select_comment_project(project_id)

@@ -17,11 +17,11 @@ def home():
 
 @app.route('/dm')
 def dm():
-    return render_template('dm.html')
+    return render_template('dm.html', title='Direct Messages')
 
 @app.route('/friends')
 def friends():
-    return render_template('friends.html')
+    return render_template('friends.html', title='Friends')
 
 @app.route('/feed')
 def feed():
@@ -42,7 +42,7 @@ def feed():
                 }
         projects.append(indiv)
     projects.reverse()
-    return render_template('mainfeed.html', projects=projects)
+    return render_template('mainfeed.html', projects=projects, title='Main Feed')
 
 @app.route('/post', methods=['GET', 'POST'])
 def post():
@@ -59,11 +59,11 @@ def post():
         image = b64encode(image).decode('"utf-8"')
         socketio.emit('update', {'title': title, 'description': description, 'types': types, 'image': image, 'count': count, 'id': project_id}, namespace='/posts')
         return redirect(url_for('projects'))
-    return render_template('post.html', form=form)
+    return render_template('post.html', form=form, title='Post')
 
 @app.route('/profile')
 def profile():
-    return render_template('profile.html')
+    return render_template('profile.html', title='Profile')
 
 @app.route('/projects')
 def projects():
@@ -84,7 +84,7 @@ def projects():
                 }
         projects.append(indiv)
     projects.reverse()
-    return render_template('projects.html', projects=projects)
+    return render_template('projects.html', projects=projects, title='My Projects')
 
 @socketio.on('like', namespace='/likes')
 def handle_my_custom_event(data):
@@ -118,11 +118,11 @@ def signin():
         # TODO: Fill in database implementation
         flash('Successful! Welcome {}!'.format(form.first_name.data), 'success')
         return redirect(url_for('home'))
-    return render_template('signin.html')
+    return render_template('signin.html', title='Sign In')
 
 @app.route('/likes')
 def likes():
-    return render_template('likes.html')
+    return render_template('likes.html', title='Likes')
 
 @app.route('/project/<int:project_id>',  methods=['GET', 'POST'])
 def project(project_id):
@@ -146,7 +146,7 @@ def project(project_id):
             user = db.select_user(comment[0])[0]
             x = {'name': user[0] + ' ' + user[1], 'text': comment[1]}
             comments.append(x)
-        return render_template('project.html', project=project, form=form, comments=comments)
+        return render_template('project.html', project=project, form=form, comments=comments, title=project.get('title'))
     return render_template('404.html'), 404
 
 @socketio.on('comment', namespace='/comments')

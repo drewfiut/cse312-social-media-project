@@ -1,0 +1,28 @@
+{% macro project_display(project) %}
+<div class="project_deck container">
+
+    <div class="card mb-3 project_card">
+        <div class="row">
+            <div class="col-sm-1 align-self-center">
+                <button type="button" class="like_btn btn px-3"
+                    onclick="sendLike('{{ project.id }}'); return false;"><i class="fas fa-fire-alt"></i><span
+                        id="like_count_{{ project.id }}">{{ project.likes }}</span></button>
+            </div>
+            <div class="col-sm-4  align-self-center">
+                <img src="data:;base64,{{ project.image }}" class="card-img" alt="...">
+            </div>
+            <div class="col-sm">
+                <div class="card-body">
+                    <h5 class="card-title pink">{{ project.title }}</h5>
+                    <p class="card-text" id="descroption">{{ project.description }}</p>
+                    <p class="card-text" id="skills"><strong>Type: </strong>{{ project.type }}</p>
+                    <p class="card-text" id=""><i class="fas fa-users"></i> {{ project.count }} collaborators needed
+                    </p>
+                    <a href="{{ url_for('project', project_id=project.id) }}"
+                        class="btn my-2 my-sm-0 nav_button_primary btn-lg" type="button">View Project</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endmacro %}

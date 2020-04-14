@@ -118,7 +118,7 @@ def signin():
         # TODO: Fill in database implementation
         flash('Successful! Welcome {}!'.format(form.first_name.data), 'success')
         return redirect(url_for('home'))
-    return render_template('signin.html', title='Sign In')
+    return render_template('signin.html', title='Sign In', form=form)
 
 @app.route('/likes')
 def likes():

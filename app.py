@@ -157,7 +157,16 @@ def handle_my_custom_event(data):
     db.insert_comments(user_id, project_id, comment)
     user = db.select_user(user_id)[0]
     name = user[0] + ' ' + user[1]
+    comment = clean_html(comment)
     emit('update', {'name': name, 'project_id': project_id, 'comment': comment}, broadcast=True)
+
+def clean_html(data):
+    data = data.replace('&', '&amp;')
+    data = data.replace('<', '&lt;')
+    data = data.replace('>', '&gt;')
+    data = data.replace('"', '&quot;')
+    data = data.replace("'", '&apos;')
+    return data
 
 @app.errorhandler(404)
 def page_not_found(e):

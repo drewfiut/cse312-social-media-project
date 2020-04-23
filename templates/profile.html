@@ -3,11 +3,10 @@
  
   <div class="jumbotron">
     <div class="container">
-        <img src="{{ url_for('static', filename='profile_holder.jfif') }}" class="rounded">
+        <img src="data:;base64,{{ current_user.image }}" class="rounded w-25">
         <hr class="my-4">
-        <h2 class="lead">John Doe</h2>
+        <h2 class="lead">{{ current_user.first_name }} {{ current_user.last_name }}</h2>
         <a type="button" class="btn btn-outline-primary" href="{{ url_for('post') }}">Make a Project</a>
-        <a type="button" class="btn btn-outline-primary float-right" href="#">Sign Out</a>
     </div>
   </div>
 

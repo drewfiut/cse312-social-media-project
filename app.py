@@ -33,7 +33,7 @@ class User(UserMixin):
             self.last_name = user[1]
             self.email = user[2]
             self.password = user[3]
-            self.image = user[4]
+            self.image = b64encode(user[4]).decode('"utf-8"')
 
     def get_user(id):
         user = User(id)

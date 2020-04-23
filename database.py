@@ -93,6 +93,17 @@ def select_user(user_id):
     close(db)
     return result
 
+#Selects a user from the user table by email
+def select_user_email(email):
+    db = connect()
+    cursor = db.cursor()
+    sql = 'SELECT id, first_name, last_name, password, image FROM user WHERE email = (%s)'
+    val = (email,)
+    cursor.execute(sql,val)
+    result = cursor.fetchall()
+    close(db)
+    return result
+
 #Selects a project from the project table
 def select_project(project_id):
     db = connect()

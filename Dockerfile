@@ -9,6 +9,9 @@ RUN pip install Flask==0.10.1
 RUN pip install mysql-connector
 RUN pip install flask-wtf
 RUN pip install flask-socketio 
+RUN pip install flask-bcrypt
+RUN pip install Pillow
+RUN pip install flask-login
 COPY . /app
 
 ENTRYPOINT [ "python" ]

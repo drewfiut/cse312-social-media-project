@@ -12,6 +12,7 @@ class RegistrationForm(FlaskForm):
     email = StringField('Email',
                         validators=[DataRequired(), Email()])
     password = PasswordField('Password', validators=[DataRequired()])
+    image = FileField('Image', validators=[FileAllowed(['jpg'])])
     submit = SubmitField('Join')
 
 class CommentForm(FlaskForm):
@@ -36,4 +37,4 @@ class LoginForm(FlaskForm):
     email = StringField('Email',
                         validators=[DataRequired(), Email()])
     password = PasswordField('Password', validators=[DataRequired()])
-    submit = SubmitField('Login')
+    submit = SubmitField('Sign In')

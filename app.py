@@ -5,10 +5,39 @@ import database as db
 import secrets
 import os
 from flask_socketio import SocketIO, send, emit
+from flask_bcrypt import Bcrypt
+import io
+from PIL import Image
+from flask_login import LoginManager, login_user, UserMixin, current_user, logout_user
+
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'abadsecretkey'
 socketio = SocketIO(app)
+bcrypt = Bcrypt(app)
+login_manager = LoginManager(app)
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User.get_user(user_id)
+
+class User(UserMixin):
+
+    def __init__(self, id):
+        user = db.select_user(id)
+        if user:
+            user = user[0]
+            self.id = id
+            self.first_name = user[0]
+            self.last_name = user[1]
+            self.email = user[2]
+            self.password = user[3]
+            self.image = user[4]
+
+    def get_user(id):
+        user = User(id)
+        return user
+
 
 @app.route('/')
 @app.route('/home')
@@ -97,28 +126,47 @@ def handle_my_custom_event(data):
 @app.route('/registration', methods=['GET', 'POST'])
 def registration():
     #return render_template('registration.html')
+    if current_user.is_authenticated:
+        return redirect(url_for('feed'))
     form = RegistrationForm()
     if form.validate_on_submit():
+        hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
         first = form.first_name.data
         last = form.last_name.data
         email = form.email.data
-        password = form.password
-        db.insert_user(first, last, email, password, 'image')
+        image = form.image.data
+        if not image:
+            image = Image.open('static/user_default.jpg', mode='r')
+            imgByteArr = io.BytesIO()
+            image.save(imgByteArr, format=image.format)
+            image = imgByteArr.getvalue()
+        else:
+            image = form.image.data.read()
+        db.insert_user(first, last, email, hashed_password, image)
         flash('Account created for {}!'.format(form.first_name.data), 'success')
-        return redirect(url_for('home'))
+        return redirect(url_for('signin'))
     return render_template('registration.html', title='Register', form=form)
 
-@app.route('/signin')
+@app.route('/signin', methods=['GET', 'POST'])
 def signin():
+    if current_user.is_authenticated:
+        return redirect(url_for('feed'))
     form = LoginForm()
     if form.validate_on_submit() :
-        email = form.email.data
-        password = form.password.data
-        db.select_user(email)
-        # TODO: Fill in database implementation
-        flash('Successful! Welcome {}!'.format(form.first_name.data), 'success')
-        return redirect(url_for('home'))
+        user = db.select_user_email(form.email.data)
+        if user and bcrypt.check_password_hash(user[0][3], form.password.data):
+            usernew = User(user[0][0])
+            login_user(usernew)
+            return redirect(url_for('feed'))
+        else:
+            flash('Try Again', 'warning')
+        return redirect(url_for('signin'))
     return render_template('signin.html', title='Sign In', form=form)
+
+@app.route('/logout')
+def logout():
+    logout_user()
+    return redirect(url_for('home'))
 
 @app.route('/likes')
 def likes():

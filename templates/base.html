@@ -46,15 +46,21 @@
 
 				</ul>
 				<ul class="navbar-nav">
-					<li class="nav-item">
-						<a class="nav-link " href="{{ url_for('profile') }}">Profile</a>
-					</li>
-					<li class="nav-item">
-						<a class="btn my-2 my-sm-0 nav_button_primary" type="button" href="{{ url_for('signin') }}">Sign in</a>
-					</li>
-					<li class="nav-item">
-						<a class="btn my-2 my-sm-0 nav_button_secondary" type="button" href="{{ url_for('registration') }}">Sign Up</a>
-					</li>
+					{% if current_user.is_authenticated %}
+						<li class="nav-item">
+							<a class="nav-link " href="{{ url_for('profile') }}">{{ current_user.first_name }}'s Profile</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link " href="{{ url_for('logout') }}">Logout</a>
+						</li>
+					{% else %}
+						<li class="nav-item">
+							<a class="btn my-2 my-sm-0 nav_button_primary" type="button" href="{{ url_for('signin') }}">Sign in</a>
+						</li>
+						<li class="nav-item">
+							<a class="btn my-2 my-sm-0 nav_button_secondary" type="button" href="{{ url_for('registration') }}">Sign Up</a>
+						</li>
+					{% endif %}
 
 				</ul>
 			</div>

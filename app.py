@@ -8,7 +8,7 @@ from flask_socketio import SocketIO, send, emit
 from flask_bcrypt import Bcrypt
 import io
 from PIL import Image
-from flask_login import LoginManager, login_user, UserMixin, current_user, logout_user
+from flask_login import LoginManager, login_user, UserMixin, current_user, logout_user, login_required
 
 
 app = Flask(__name__)
@@ -16,6 +16,7 @@ app.config['SECRET_KEY'] = 'abadsecretkey'
 socketio = SocketIO(app)
 bcrypt = Bcrypt(app)
 login_manager = LoginManager(app)
+login_manager.login_view = 'signin'
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -45,10 +46,12 @@ def home():
     return render_template('index.html', title='Home')
 
 @app.route('/dm')
+@login_required
 def dm():
     return render_template('dm.html', title='Direct Messages')
 
 @app.route('/friends')
+@login_required
 def friends():
     return render_template('friends.html', title='Friends')
 
@@ -74,6 +77,7 @@ def feed():
     return render_template('mainfeed.html', projects=projects, title='Main Feed')
 
 @app.route('/post', methods=['GET', 'POST'])
+@login_required
 def post():
     form = PostForm()
     if form.validate_on_submit():
@@ -82,7 +86,7 @@ def post():
         types = form.types.data
         image = form.image.data.read()
         count = form.number.data
-        auth_id = 1
+        auth_id = current_user.id
         project_id = db.insert_project(title, description, types, image, count, auth_id)
         flash('Project Created for {}.'.format(form.title.data), 'success')
         image = b64encode(image).decode('"utf-8"')
@@ -91,10 +95,12 @@ def post():
     return render_template('post.html', form=form, title='Post')
 
 @app.route('/profile')
+@login_required
 def profile():
     return render_template('profile.html', title='Profile')
 
 @app.route('/projects')
+@login_required
 def projects():
     project_list = db.select_projects_all()
     projects = []
@@ -117,11 +123,13 @@ def projects():
 
 @socketio.on('like', namespace='/likes')
 def handle_my_custom_event(data):
-    user_id = data['user_id']
+    user_id = current_user.id
     project_id = data['project_id']
-    db.insert_likes(user_id, project_id)
-    likes = db.select_likes_count(project_id)[0][0]
-    emit('update', {'project_id': project_id, 'likes': likes}, broadcast=True)
+    liked = db.is_liked(user_id, project_id)
+    if not liked:
+        db.insert_likes(user_id, project_id)
+        likes = db.select_likes_count(project_id)[0][0]
+        emit('update', {'project_id': project_id, 'likes': likes}, broadcast=True)
 
 @app.route('/registration', methods=['GET', 'POST'])
 def registration():
@@ -164,11 +172,13 @@ def signin():
     return render_template('signin.html', title='Sign In', form=form)
 
 @app.route('/logout')
+@login_required
 def logout():
     logout_user()
     return redirect(url_for('home'))
 
 @app.route('/likes')
+@login_required
 def likes():
     return render_template('likes.html', title='Likes')
 
@@ -199,7 +209,7 @@ def project(project_id):
 
 @socketio.on('comment', namespace='/comments')
 def handle_my_custom_event(data):
-    user_id = data['user_id']
+    user_id = current_user.id
     project_id = data['project_id']
     comment = data['comment']
     db.insert_comments(user_id, project_id, comment)

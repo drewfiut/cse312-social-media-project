@@ -10,8 +10,7 @@ likes_socket.on('update', function (data) {
 });
 
 function sendLike(project_id) {
-    let user_id = 1;
-    let data = { 'user_id': user_id, 'project_id': parseInt(project_id) };
+    let data = {'project_id': parseInt(project_id) };
     likes_socket.emit('like', data);
 }
 // Socket for new Posts

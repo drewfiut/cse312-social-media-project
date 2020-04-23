@@ -170,6 +170,20 @@ def select_likes_count(project_id):
     close(db)
     return result
 
+#checks if a user liked a post
+def is_liked(user_id, project_id):
+    db = connect()
+    cursor = db.cursor()
+    sql = 'SELECT COUNT(*) FROM likes WHERE user_id = (%s) and project_id = (%s)'
+    val = (user_id, project_id)
+    cursor.execute(sql,val)
+    result = cursor.fetchall()
+    close(db)
+    if result[0][0] == 0:
+        return False
+    else:
+        return True
+
 #Selects all projects a user has liked
 def select_likes_user(user_id):
     db = connect()

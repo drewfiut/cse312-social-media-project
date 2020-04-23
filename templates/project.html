@@ -15,10 +15,9 @@
         });
 
         function sendComment(project_id) {
-            let user_id = 1;
             comment = document.querySelector('#comment').value
             document.querySelector('#comment').value = ''
-            let data = { 'user_id': user_id, 'project_id': parseInt(project_id), 'comment': comment };
+            let data = { 'project_id': parseInt(project_id), 'comment': comment };
             likes_socket.emit('comment', data);
         }
     </script>

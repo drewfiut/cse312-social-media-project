@@ -48,7 +48,25 @@ def home():
 @app.route('/friends')
 @login_required
 def friends():
-    return render_template('friends.html', title='Friends')
+    instances = db.select_friends(current_user.id)
+    friends = []
+    for item in instances:
+        friend_id = 0
+        if item[0] == current_user.id:
+            friend_id = item[1]
+        else:
+            friend_id = item[0]
+        friend = db.select_user(friend_id)
+        image = b64encode(friend[5]).decode('"utf-8"')
+        indiv = {
+                 'first_name': friend[1],
+                 'last_name': friend[2],
+                 'image': image,
+                 'id': friend[0]
+                }
+        friends.append(indiv)
+
+    return render_template('friends.html', friends=friends, title='Friends')
 
 @app.route('/feed')
 def feed():

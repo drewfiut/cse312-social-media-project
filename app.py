@@ -45,11 +45,6 @@ class User(UserMixin):
 def home():
     return render_template('index.html', title='Home')
 
-@app.route('/dm')
-@login_required
-def dm():
-    return render_template('dm.html', title='Direct Messages')
-
 @app.route('/friends')
 @login_required
 def friends():
@@ -120,6 +115,58 @@ def projects():
         projects.append(indiv)
     projects.reverse()
     return render_template('projects.html', projects=projects, title='My Projects')
+
+@app.route('/dm')
+@login_required
+def dm():
+    user_id = current_user.id
+    chats_list = db.select_chat_list(user_id)
+    chats = []
+    for chat in chats_list:
+        id = chat[0]
+        name = db.select_name(id)
+        first_name = name[0]
+        last_name = name[1]
+        indiv = {
+                 'first_name': first_name,
+                 'last_name': last_name,
+                 'id': id
+                }
+        chats.append(indiv)
+    chats.reverse()
+    messages = []
+    if len(chats) == 0:
+        return render_template('dm.html', chats=chats, messages=messages, title='Direct Messages')
+    default_id = chats[0]['id']
+    default_name = db.select_name(default_id)[0]
+    messages_list = db.select_messages(current_user.id, default_id)
+    
+    for message in messages_list:
+        if message[0] == default_id:
+            indiv = {
+                 'first_name': default_name,
+                 'message': message[2]
+                }
+            messages.append(indiv)
+        else:
+            indiv = {
+                 'first_name': 'You',
+                 'message': message[2]
+                }
+            messages.append(indiv)
+    messages.reverse
+    return render_template('dm.html', chats=chats, messages=messages, title='Direct Messages')
+
+@socketio.on('message', namespace='/message')
+def handle_my_custom_event(data):
+    user_id = current_user.id
+    project_id = data['project_id']
+    liked = db.is_liked(user_id, project_id)
+    if not liked:
+        db.insert_likes(user_id, project_id)
+        likes = db.select_likes_count(project_id)[0][0]
+        emit('update', {'project_id': project_id, 'likes': likes})
+
 
 @socketio.on('like', namespace='/likes')
 def handle_my_custom_event(data):

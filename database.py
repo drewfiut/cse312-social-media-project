@@ -80,6 +80,18 @@ def insert_project_members(user_id, project_id):
     close(db)
     return project_member_id
 
+#Insert a message from one user to another user
+def insert_direct_message(sender_id, receiver_id, message):
+    db = connect()
+    cursor = db.cursor()
+    sql = 'INSERT INTO messages (sender, receiver, message) VALUES (%s,%s, %s)'
+    val = (sender_id, receiver_id, message)
+    cursor.execute(sql, val)
+    db.commit()
+    message_id = cursor.lastrowid
+    close(db)
+    return message_id
+
 #SELECT FUNCTIONS
 
 #Selects a user from the user table
@@ -213,6 +225,36 @@ def select_member_projects(user_id):
     sql = 'SELECT project_id FROM project_members WHERE user_id = (%s)'
     val = (user_id,)
     cursor.execute(sql,val)
+    result = cursor.fetchall()
+    close(db)
+    return result
+
+def select_messages(user_id, other_id):
+    db = connect()
+    cursor = db.cursor
+    sql = 'SELECT sender, receiver, message from messages WHERE (sender = (%s) AND receiver = (%s)) OR (sender = (%s) AND receiver = (%s)) ORDER BY time_sent'
+    val = (user_id, other_id, other_id, user_id)
+    cursor.execute(sql, val)
+    result = cursor.fetchall()
+    close(db)
+    return result
+
+def select_chat_list(user_id):
+    db = connect()
+    cursor = db.cursor()
+    sql = 'SELECT DISTINCT sender AS contact FROM messages WHERE receiver = (%s) UNION SELECT DISTINCT receiver AS contact FROM messages WHERE sender = (%s)'
+    val = (user_id, user_id)
+    cursor.execute(sql, val)
+    result = cursor.fetchall()
+    close(db)
+    return result
+
+def select_name(user_id):
+    db = connect()
+    cursor = db.cursor
+    sql = 'SELECT first_name, last_name FROM user WHERE id = (%s)'
+    val = (user_id)
+    cursor.execute(sql, val)
     result = cursor.fetchall()
     close(db)
     return result

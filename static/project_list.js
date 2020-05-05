@@ -13,6 +13,7 @@ function sendLike(project_id) {
     let data = {'project_id': parseInt(project_id) };
     likes_socket.emit('like', data);
 }
+
 // Socket for new Posts
 var posts_socket = io('/posts');
 posts_socket.on('connect', function () {

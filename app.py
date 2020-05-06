@@ -184,7 +184,6 @@ def handle_my_custom_event(data):
         likes = db.select_likes_count(project_id)[0][0]
         emit('update', {'project_id': project_id, 'likes': likes})
 
-
 @socketio.on('like', namespace='/likes')
 def handle_my_custom_event(data):
     user_id = current_user.id

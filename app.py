@@ -53,13 +53,13 @@ def friends():
     ids = []
     for project in projects:
         
-        users = db.select_project_members(project)
+        users = db.select_project_members(project[0])
         for user in users:
             if user != current_user.id:
                 ids.append(user)
     
     for friend_id in ids:       
-        friend = db.select_user(friend_id)
+        friend = db.select_user(friend_id[0])
         image = b64encode(friend[4]).decode('"utf-8"')
         indiv = {
                  'first_name': friend[1],

@@ -30,7 +30,3 @@
 {% macro message_display(message) %}
     <p class="sender"><strong>{{message.first_name}}: </strong> {{message.message}}</p>
 {% endmacro %}
-
-{% macro chat_display(chat) %}
-    <button type="button" class="btn btn-secondary" id="{{chat.id}}">{{chat.first_name}} {{chat.last_name}}</button>
-{% endmacro %}

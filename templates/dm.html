@@ -1,40 +1,29 @@
 {% extends 'base.html' %}
-{% from '_macros.html' import chat_display %} 
-{% from '_macros.html' import chat_list %}
+{% from '_macros.html' import message_display %} 
 {% block content %}
 <script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"
 	integrity="sha256-yr4fRk/GU1ehYJPAs8P4JlTgu0Hdsp4ZKrx8bDEDC3I=" crossorigin="anonymous"></script>
 <script src="{{ url_for('static', filename='direct_message.js') }}" type="text/javascript" charset="utf-8"></script>
 	<div class="container">
-		<div class="row">
-			<div class="col-10">
-				<div class="card my-5">
-					<div class="card-header text-center h3">
-						UserName
-					</div>
-					<div class="card-body border-bottom px-5" id="dm-card-body">
-						<!--CHAT MESSAGES SHOWN HERE-->
-					</div>
-					{% for message in messages %}
-						{{ message_display(message) }}
-					{% endfor %}
-					<form class="d-inline-flex align-items-center p-2">
-						<textarea class="form-control" rows="2"></textarea>
-						<button type="submit" class="btn btn-primary ml-2">Send</button>
-					</form>
-				</div>
+		
+		<div class="card my-5">
+			<div class="card-header text-center h3" id="username">
+				{%name%}
 			</div>
-
-			<div class="col-2">
-
-				<div class="card my-5">
-					<div class="btn-group-vertical" id="chat-list">
-						{% for chat in chats %}
-							{{ chat_display(chat) }}
-						{% endfor %}
-					</div>
-				</div>
+			<div class="card-body border-bottom px-5" id="dm-card-body">
+				<!--CHAT MESSAGES SHOWN HERE-->
 			</div>
+			{% for message in messages %}
+				{{ message_display(message) }}
+			{% endfor %}
+			<form class="d-inline-flex align-items-center p-2">
+				<textarea class="form-control" rows="2" id="message_area"></textarea>
+				<button type="submit" class="btn btn-primary ml-2" onclick="sendMessage()">Send</button>
+			</form>
 		</div>
+	
+
+			
+		
 	</div>
 {% endblock content %}

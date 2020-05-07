@@ -12,7 +12,7 @@
                 <h4 class="card-title">{{ friend.first_name }} {{ friend.last_name }}</h4>
                 <!--a href="#" class="btn btn-primary">See Profile</a>
                 <a href="#" class="btn btn-warning">Unfollow</a-->
-                <a href="{{ url_for('dm') }}" class="btn btn-warning">Dm</a>
+                <a href="{{ url_for('dm', friend_id=friend.id) }}" class="btn btn-warning">Dm</a>
               </div>
           </li>
 

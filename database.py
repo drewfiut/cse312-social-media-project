@@ -231,7 +231,7 @@ def select_member_projects(user_id):
 
 def select_messages(user_id, other_id):
     db = connect()
-    cursor = db.cursor
+    cursor = db.cursor()
     sql = 'SELECT sender, receiver, message from messages WHERE (sender = (%s) AND receiver = (%s)) OR (sender = (%s) AND receiver = (%s)) ORDER BY time_sent'
     val = (user_id, other_id, other_id, user_id)
     cursor.execute(sql, val)
@@ -239,19 +239,19 @@ def select_messages(user_id, other_id):
     close(db)
     return result
 
-def select_chat_list(user_id):
+def insert_message(sender, receiver, message):
     db = connect()
     cursor = db.cursor()
-    sql = 'SELECT DISTINCT sender AS contact FROM messages WHERE receiver = (%s) UNION SELECT DISTINCT receiver AS contact FROM messages WHERE sender = (%s)'
-    val = (user_id, user_id)
+    sql = 'INSERT INTO messages(sender, receiver, message) VALUES ((%s),(%s),(%s))'
+    val = (sender, receiver, message)
     cursor.execute(sql, val)
-    result = cursor.fetchall()
+    result = cursor.lastrowid()
     close(db)
     return result
 
 def select_name(user_id):
     db = connect()
-    cursor = db.cursor
+    cursor = db.cursor()
     sql = 'SELECT first_name, last_name FROM user WHERE id = (%s)'
     val = (user_id)
     cursor.execute(sql, val)

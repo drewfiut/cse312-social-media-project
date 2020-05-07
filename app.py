@@ -51,19 +51,20 @@ def friends():
     instances = db.select_friends(current_user.id)
     friends = []
     for item in instances:
-        
+        friend_id = 0
         if item[0] == current_user.id:
             friend_id = item[1]
-       
-            friend = db.select_user(friend_id)
-            image = b64encode(friend[5]).decode('"utf-8"')
-            indiv = {
-                    'first_name': friend[1],
-                    'last_name': friend[2],
-                    'image': image,
-                    'id': friend[0]
-                    }
-            friends.append(indiv)
+        else:
+            friend_id = item[0]
+        friend = db.select_user(friend_id)
+        image = b64encode(friend[4]).decode('"utf-8"')
+        indiv = {
+                 'first_name': friend[1],
+                 'last_name': friend[2],
+                 'image': image,
+                 'id': friend[0]
+                }
+        friends.append(indiv)
 
     return render_template('friends.html', friends=friends, title='Friends')
 
@@ -133,35 +134,19 @@ def projects():
     projects.reverse()
     return render_template('projects.html', projects=projects, title='My Projects')
 
-@app.route('/dm')
+@app.route('/dm/<int:friend_id>',  methods=['GET', 'POST'])
 @login_required
-def dm():
+def dm(friend_id):
     user_id = current_user.id
-    chats_list = db.select_chat_list(user_id)
-    chats = []
-    for chat in chats_list:
-        id = chat[0]
-        name = db.select_name(id)
-        first_name = name[0]
-        last_name = name[1]
-        indiv = {
-                 'first_name': first_name,
-                 'last_name': last_name,
-                 'id': id
-                }
-        chats.append(indiv)
-    chats.reverse()
     messages = []
-    if len(chats) == 0:
-        return render_template('dm.html', chats=chats, messages=messages, title='Direct Messages')
-    default_id = chats[0]['id']
-    default_name = db.select_name(default_id)[0]
-    messages_list = db.select_messages(current_user.id, default_id)
-    
+    first_name = db.select_name(friend_id)[0]
+    last_name = db.select_name(friend_id)[1]
+    full_name = first_name + ' ' + last_name
+    messages_list = db.select_messages(current_user.id, friend_id)
     for message in messages_list:
-        if message[0] == default_id:
+        if message[0] == friend_id:
             indiv = {
-                 'first_name': default_name,
+                 'first_name': first_name,
                  'message': message[2]
                 }
             messages.append(indiv)
@@ -172,17 +157,16 @@ def dm():
                 }
             messages.append(indiv)
     messages.reverse
-    return render_template('dm.html', chats=chats, messages=messages, title='Direct Messages')
+    return render_template('dm.html', name = full_name, messages=messages, title='Direct Messages')
 
 @socketio.on('message', namespace='/message')
-def handle_my_custom_event(data):
-    user_id = current_user.id
-    project_id = data['project_id']
-    liked = db.is_liked(user_id, project_id)
-    if not liked:
-        db.insert_likes(user_id, project_id)
-        likes = db.select_likes_count(project_id)[0][0]
-        emit('update', {'project_id': project_id, 'likes': likes})
+def handle_my_message_event(data):
+    sender_id = current_user.id
+    receiver_id = data['project_id']
+    message = data['message'];
+    db.insert_message(sender_id, receiver_id)
+    first_name = db.select_name(receiver_id)[0]
+    emit('update', {'first_name': first_name, 'message': message})
 
 
 @socketio.on('like', namespace='/likes')

@@ -253,7 +253,7 @@ def select_name(user_id):
     db = connect()
     cursor = db.cursor()
     sql = 'SELECT first_name, last_name FROM user WHERE id = (%s)'
-    val = (user_id)
+    val = (user_id,)
     cursor.execute(sql, val)
     result = cursor.fetchall()
     close(db)

@@ -48,14 +48,17 @@ def home():
 @app.route('/friends')
 @login_required
 def friends():
-    instances = db.select_friends(current_user.id)
+    projects = db.select_member_projects(current_user.id)
     friends = []
-    for item in instances:
-        friend_id = 0
-        if item[0] == current_user.id:
-            friend_id = item[1]
-        else:
-            friend_id = item[0]
+    ids = []
+    for project in projects:
+        
+        users = db.select_project_members(project)
+        for user in users:
+            if user != current_user.id:
+                ids.append(user)
+    
+    for friend_id in ids:       
         friend = db.select_user(friend_id)
         image = b64encode(friend[4]).decode('"utf-8"')
         indiv = {
@@ -163,7 +166,7 @@ def dm(friend_id):
 def handle_my_message_event(data):
     sender_id = current_user.id
     receiver_id = data['project_id']
-    message = data['message'];
+    message = data['message']
     db.insert_message(sender_id, receiver_id)
     first_name = db.select_name(receiver_id)[0]
     emit('update', {'first_name': first_name, 'message': message})

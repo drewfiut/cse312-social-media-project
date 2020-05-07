@@ -168,7 +168,6 @@ def handle_my_message_event(data):
     first_name = db.select_name(receiver_id)[0]
     emit('update', {'first_name': first_name, 'message': message})
 
-
 @socketio.on('like', namespace='/likes')
 def handle_my_custom_event(data):
     user_id = current_user.id

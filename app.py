@@ -48,7 +48,7 @@ def home():
 @app.route('/friends')
 @login_required
 def friends():
-   projects = db.select_member_projects(current_user.id)
+    projects = db.select_member_projects(current_user.id)
     friends = []
     ids = []
     for project in projects:

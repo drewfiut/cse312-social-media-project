@@ -1,29 +1,48 @@
 {% extends 'base.html' %}
-{% from '_macros.html' import message_display %} 
 {% block content %}
-<script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"
+	<script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"
 	integrity="sha256-yr4fRk/GU1ehYJPAs8P4JlTgu0Hdsp4ZKrx8bDEDC3I=" crossorigin="anonymous"></script>
-<script src="{{ url_for('static', filename='direct_message.js') }}" type="text/javascript" charset="utf-8"></script>
-	<div class="container">
-		
-		<div class="card my-5">
-			<div class="card-header text-center h3" id="username">
-				{%name%}
-			</div>
-			<div class="card-body border-bottom px-5" id="dm-card-body">
-				<!--CHAT MESSAGES SHOWN HERE-->
-			</div>
-			{% for message in messages %}
-				{{ message_display(message) }}
-			{% endfor %}
-			<form class="d-inline-flex align-items-center p-2">
-				<textarea class="form-control" rows="2" id="message_area"></textarea>
-				<button type="submit" class="btn btn-primary ml-2" onclick="sendMessage()">Send</button>
-			</form>
-		</div>
-	
+	<script type="text/javascript" charset="utf-8">
+    
+        var message_socket = io('/messages');
+        message_socket.on('connect', function () {
+            message_socket.send('connected');
+        });
 
-			
-		
+		message_socket.on('update', function (data) {
+            text = document.querySelector('#new');
+            text.innerHTML += ' <p class="sender"><strong>'+ data.display_name + ': </strong> ' + data.message + '</p>';
+        });
+
+        function sendMessage(receiver) {
+            message = document.querySelector('#message').value;
+            document.querySelector('#message').value = '';
+            let data = {'receiver': parseInt(receiver), 'message': message };
+			message_socket.emit('message', data);	
+        }
+    </script>
+
+	<div class="container">
+		<div class="card my-4">
+            <h5 class="card-header">{{ name }}</h5>
+            <div class="card-body">
+                {% for message in messages %}
+                	<p class="sender"><strong>{{message.first_name}}: </strong> {{message.message}}</p>
+                {% endfor %}
+                <div id="new"></div>
+
+                <form onsubmit="sendMessage('{{ receiver_id }}'); return false;">
+                    {{ form.hidden_tag() }}
+
+                    <div class="form-group">
+                        <!--textarea class="form-control" rows="3"></textarea-->
+                        {{ form.message(class="form-control", rows="3", id="message") }}
+                    </div>
+                    <!--button type="submit" class="btn btn-primary">Submit</button-->
+                    {{ form.post(class="btn btn-primary ml-2") }}
+                </form>
+            </div>
+
+        </div>
 	</div>
 {% endblock content %}

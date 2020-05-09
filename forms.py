@@ -15,6 +15,10 @@ class RegistrationForm(FlaskForm):
     image = FileField('Image', validators=[FileAllowed(['jpg'])])
     submit = SubmitField('Join')
 
+class MessageForm(FlaskForm):
+    message = TextAreaField('Message', validators=[DataRequired()])
+    post = SubmitField('Submit')
+
 class CommentForm(FlaskForm):
     comment = TextAreaField('Comment', validators=[DataRequired()])
     post = SubmitField('Submit')

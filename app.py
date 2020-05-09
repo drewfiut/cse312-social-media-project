@@ -1,5 +1,5 @@
 from flask import Flask, render_template, url_for, flash, redirect, request
-from forms import RegistrationForm, PostForm, CommentForm, LoginForm
+from forms import RegistrationForm, PostForm, CommentForm, LoginForm, MessageForm
 from base64 import b64encode
 import database as db
 import secrets
@@ -9,7 +9,7 @@ from flask_bcrypt import Bcrypt
 import io
 from PIL import Image
 from flask_login import LoginManager, login_user, UserMixin, current_user, logout_user, login_required
-
+import sys
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'abadsecretkey'
@@ -139,39 +139,6 @@ def projects():
     projects.reverse()
     return render_template('projects.html', projects=projects, title='My Projects')
 
-@app.route('/dm/<int:friend_id>',  methods=['GET', 'POST'])
-@login_required
-def dm(friend_id):
-    user_id = current_user.id
-    messages = []
-    first_name = db.select_name(friend_id)[0]
-    last_name = db.select_name(friend_id)[1]
-    full_name = first_name + ' ' + last_name
-    messages_list = db.select_messages(current_user.id, friend_id)
-    for message in messages_list:
-        if message[0] == friend_id:
-            indiv = {
-                 'first_name': first_name,
-                 'message': message[2]
-                }
-            messages.append(indiv)
-        else:
-            indiv = {
-                 'first_name': 'You',
-                 'message': message[2]
-                }
-            messages.append(indiv)
-    messages.reverse
-    return render_template('dm.html', name = full_name, messages=messages, title='Direct Messages')
-
-@socketio.on('message', namespace='/message')
-def handle_my_message_event(data):
-    sender_id = current_user.id
-    receiver_id = data['project_id']
-    message = data['message']
-    db.insert_message(sender_id, receiver_id)
-    first_name = db.select_name(receiver_id)[0]
-    emit('update', {'first_name': first_name, 'message': message})
 
 @socketio.on('like', namespace='/likes')
 def handle_my_custom_event(data):
@@ -233,6 +200,43 @@ def logout():
 @login_required
 def likes():
     return render_template('likes.html', title='Likes')
+
+@app.route('/dm/<int:friend_id>',  methods=['GET', 'POST'])
+@login_required
+def dm(friend_id):
+    user_id = current_user.id
+    messages = []
+    friend = db.select_user(friend_id)[0]
+    first_name = friend[0]
+    last_name = friend[1]
+    full_name = first_name + ' ' + last_name
+    messages_list = db.select_messages(current_user.id, friend_id)
+    for message in messages_list:
+        if message[0] == friend_id:
+            indiv = {
+                 'first_name': first_name,
+                 'message': message[2]
+                }
+            messages.append(indiv)
+        else:
+            indiv = {
+                 'first_name': current_user.first_name,
+                 'message': message[2]
+                }
+            messages.append(indiv)
+    messages.reverse
+    form = MessageForm()
+    return render_template('dm.html', receiver_id = friend_id, name = full_name, messages=messages, form=form, title='Direct Messages')
+
+@socketio.on('message', namespace='/messages')
+def handle_my_message_event(data):
+    sender_id = current_user.id
+    receiver_id = data['receiver']
+    message = data['message']
+    db.insert_direct_message(sender_id, receiver_id, message)
+    sender = db.select_user(sender_id)[0]
+    sender_name = sender[0]
+    emit('update', {'display_name': sender_name, 'message': message}, broadcast=True)
 
 @app.route('/project/<int:project_id>',  methods=['GET', 'POST'])
 def project(project_id):

@@ -1,5 +1,6 @@
 import os
 import mysql.connector
+import sys
 
 #CONNECT FUNCTION
 def connect():
@@ -236,16 +237,6 @@ def select_messages(user_id, other_id):
     val = (user_id, other_id, other_id, user_id)
     cursor.execute(sql, val)
     result = cursor.fetchall()
-    close(db)
-    return result
-
-def insert_message(sender, receiver, message):
-    db = connect()
-    cursor = db.cursor()
-    sql = 'INSERT INTO messages(sender, receiver, message) VALUES ((%s),(%s),(%s))'
-    val = (sender, receiver, message)
-    cursor.execute(sql, val)
-    result = cursor.lastrowid()
     close(db)
     return result
 

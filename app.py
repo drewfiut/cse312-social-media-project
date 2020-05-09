@@ -55,7 +55,7 @@ def friends():
         
         users = db.select_project_members(project[0])
         for user in users:
-            if user != current_user.id:
+            if user[0] != current_user.id:
                 ids.append(user[0])
     
     data = []

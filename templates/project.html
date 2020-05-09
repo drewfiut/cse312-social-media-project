@@ -20,11 +20,22 @@
             let data = { 'project_id': parseInt(project_id), 'comment': comment };
             likes_socket.emit('comment', data);
         }
+
+        function joinProject(user, project){
+            var	join = new XMLHttpRequest();
+            join.open("POST", "/joinproject");
+            join.setRequestHeader("Content-Type", "application/json");
+            join.send(JSON.stringify({'user_id': user, 'project_id': project}));
+            location.reload();
+        }
     </script>
 
     <div class="container">
         <h1 class="pink" id="project_name">{{ project.title }}</h1>
-        <p>Initialized By {{ project.author_name }}</p>
+        <div class="d-flex justify-content-around">
+            <span class="h4">Initialized By {{ project.author_name }}</span>
+            <button class="btn btn-primary btn-lg" onclick="joinProject('{{ current_user.id}}', '{{ project.id }}'); return false;">Join Project</button>
+        </div>
         <hr>
         <div class="row">
             <div class="col-md-9">

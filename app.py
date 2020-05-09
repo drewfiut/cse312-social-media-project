@@ -10,6 +10,7 @@ import io
 from PIL import Image
 from flask_login import LoginManager, login_user, UserMixin, current_user, logout_user, login_required
 import sys
+import json
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'abadsecretkey'
@@ -237,6 +238,20 @@ def handle_my_message_event(data):
     sender = db.select_user(sender_id)[0]
     sender_name = sender[0]
     emit('update', {'display_name': sender_name, 'message': message}, broadcast=True)
+
+@app.route('/joinproject', methods=['POST'])
+@login_required
+def join():
+    members_raw = db.select_project_members(request.json['project_id'])
+    members = []
+    for member in members_raw:
+        member_id = member[0]
+        members.append(member_id)
+    if int(current_user.id) in members:
+        return 'failed', 400
+    else:    
+        db.insert_project_members(request.json['user_id'], request.json['project_id'])
+        return 'success', 200
 
 @app.route('/project/<int:project_id>',  methods=['GET', 'POST'])
 def project(project_id):

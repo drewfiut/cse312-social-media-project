@@ -25,7 +25,21 @@
     <title>{{ title }} - projecthookup</title>
     {% else %}
     <title>projecthookup</title>
-    {% endif %}
+	{% endif %}
+	
+	<script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"
+	integrity="sha256-yr4fRk/GU1ehYJPAs8P4JlTgu0Hdsp4ZKrx8bDEDC3I=" crossorigin="anonymous"></script>
+	<script type="text/javascript" charset="utf-8">
+    
+        var message_socket = io('/messages');
+        message_socket.on('connect', function () {
+            message_socket.send('connected');
+        });
+
+		message_socket.on('update', function (data) {
+            window.alert("New Message");
+		});
+	</script>
 
 </head>
 <body>
@@ -45,6 +59,8 @@
 						<li class="nav-item">
 							<a class="nav-link " href="{{ url_for('projects') }}">My Projects</a>
 						</li>
+
+						{% if }
 						<li class="nav-item">
 							<a class="nav-link " href="{{ url_for('friends') }}">My Collaborators</a>
 						</li>

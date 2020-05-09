@@ -2,6 +2,8 @@ import os
 import mysql.connector
 import sys
 
+msgsize = None;
+
 #CONNECT FUNCTION
 def connect():
     db = mysql.connector.connect(host='remotemysql.com', user='ZEhM9JKxvN', passwd=os.environ['MYSQL_PASSWORD'], database='ZEhM9JKxvN')
@@ -237,6 +239,7 @@ def select_messages(user_id, other_id):
     val = (user_id, other_id, other_id, user_id)
     cursor.execute(sql, val)
     result = cursor.fetchall()
+    msgsize = len(result)
     close(db)
     return result
 
@@ -250,6 +253,20 @@ def select_name(user_id):
     close(db)
     return result
 
+def check_messages(user_id, other_id):
+    bval = True
+    while blval :
+        db = connect()
+        cursor = db.cursor()
+        sql = 'SELECT sender, receiver, message from messages WHERE (sender = (%s) AND receiver = (%s)) OR (sender = (%s) AND receiver = (%s)) ORDER BY time_sent'
+        val = (user_id, other_id, other_id, user_id)
+        cursor.execute(sql, val)
+        result = cursor.fetchall()
+        tmpsize = len(result)
+        close(db)
+        if msgsize < tmpsize :
+            return True
+            
 #CLOSE FUNCTION
 def close(db):
     db.close()

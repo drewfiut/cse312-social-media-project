@@ -256,7 +256,20 @@ def project(project_id):
             user = db.select_user(comment[0])[0]
             x = {'name': user[0] + ' ' + user[1], 'text': comment[1]}
             comments.append(x)
-        return render_template('project.html', project=project, form=form, comments=comments, title=project.get('title'))
+        members_raw = db.select_project_members(project_id)
+        members = []
+        for member in members_raw:
+            member_id = member[0]
+            info = db.select_user(member_id)
+            info = info[0]
+            indiv = {
+                'id': member_id,
+                'name': info[0] + ' ' + info[1],
+                'image': b64encode(info[4]).decode('"utf-8"')
+            }
+            members.append(indiv)
+        joined = len(members)
+        return render_template('project.html', project=project, form=form, comments=comments, joined=joined, members=members, title=project.get('title'))
     return render_template('404.html'), 404
 
 @socketio.on('comment', namespace='/comments')

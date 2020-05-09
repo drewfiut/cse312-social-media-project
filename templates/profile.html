@@ -5,7 +5,7 @@
     <div class="container">
         <img src="data:;base64,{{ current_user.image }}" class="rounded w-25">
         <hr class="my-4">
-        <h2 class="lead">{{ current_user.first_name }} {{ current_user.last_name }}</h2>
+        <h2 class="h2">{{ current_user.first_name }} {{ current_user.last_name }}</h2>
         <a type="button" class="btn btn-outline-primary" href="{{ url_for('post') }}">Make a Project</a>
     </div>
   </div>
@@ -14,7 +14,7 @@
     <div class="list-group">
       <a href="{{ url_for('friends') }}" class="list-group-item list-group-item-action list-group-item-primary">Collaborators</a>
       <a href="{{ url_for('projects') }}" class="list-group-item list-group-item-action list-group-item-primary">Projects</a>
-      <a href="{{ url_for('likes') }}" class="list-group-item list-group-item-action list-group-item-primary">Likes</a>
+      <!-- <a href="{{ url_for('likes') }}" class="list-group-item list-group-item-action list-group-item-primary">Likes</a> -->
       <a href="#" class="list-group-item list-group-item-action list-group-item-secondary"data-toggle="collapse" data-target="#settings">Settings</a>
       <div id="settings" class="collapse">
         <form>

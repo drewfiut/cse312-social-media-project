@@ -37,7 +37,7 @@
         });
 
 		message_socket.on('update', function (data) {
-            window.alert("New Message");
+            document.getElementById("collabs").innerHTML = "My Collaborators - New Message"
 		});
 	</script>
 
@@ -61,7 +61,8 @@
 						</li>
 
 						<li class="nav-item">
-							<a class="nav-link " href="{{ url_for('friends') }}">My Collaborators</a>
+							<a  id="collabs" class="nav-link " href="{{ url_for('friends') }}">My Collaborators</a>
+							
 						</li>
 					{% endif %}
 

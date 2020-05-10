@@ -121,18 +121,26 @@ def profile():
 @app.route('/projects')
 @login_required
 def projects():
-    project_list = db.select_projects_all()
+    project_list = db.select_member_projects(current_user.id)
+    print('Project List', file=sys.stderr)
+    print(project_list, file=sys.stderr)
     projects = []
     for item in project_list:
-        image = b64encode(item[3]).decode('"utf-8"')
-        id = item[5]
+        print('Item', file=sys.stderr)
+        print(item, file=sys.stderr)
+        id = item[0]
+        project = db.select_project(id)[0]
+        print('Project', file=sys.stderr)
+        print(project, file=sys.stderr)
+        
+        image = b64encode(project[3]).decode('"utf-8"')
         likes = db.select_likes_count(id)[0][0]
         indiv = {
-                 'title': item[0],
-                 'description': item[1],
-                 'type': item[2],
+                 'title': project[0],
+                 'description': project[1],
+                 'type': project[2],
                  'image': image,
-                 'count': item[4],
+                 'count': project[4],
                  'id': id,
                  'likes': likes
                 }
